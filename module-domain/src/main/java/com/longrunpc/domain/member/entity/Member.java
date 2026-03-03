@@ -10,6 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 
 import com.longrunpc.domain.common.entity.BaseEntity;
+import com.longrunpc.domain.member.vo.LoginId;
+import com.longrunpc.domain.member.vo.MemberName;
+import com.longrunpc.domain.member.vo.Password;
+import com.longrunpc.domain.member.vo.Phone;
 
 @Entity
 @Table(name = "member")
@@ -19,16 +23,16 @@ public class Member extends BaseEntity {
     private Long id;
     
     @Column(name = "login_id", nullable = false)
-    private String loginId;
+    private LoginId loginId;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    private Password password;
 
     @Column(name = "name", nullable = false)
-    private String name;
+    private MemberName name;
     
     @Column(name = "phone", nullable = false)
-    private String phone;
+    private Phone phone;
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
