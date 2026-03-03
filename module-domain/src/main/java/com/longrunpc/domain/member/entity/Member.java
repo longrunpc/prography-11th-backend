@@ -37,4 +37,12 @@ public class Member extends BaseEntity {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberRole role;
+
+    public void changeMemberName(MemberName name) {
+        this.name = name;
+    }
+
+    public void changePhone(Phone phone) {
+        this.phone = phone;
+    }
 }
