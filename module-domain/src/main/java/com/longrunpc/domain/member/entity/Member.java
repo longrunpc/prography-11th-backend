@@ -49,4 +49,12 @@ public class Member extends BaseEntity {
     public void changePhone(Phone phone) {
         this.phone = phone;
     }
+
+    public boolean isAdmin() {
+        return this.role == MemberRole.ADMIN;
+    }
+
+    public boolean isWithdrawn() {
+        return this.status == MemberStatus.WITHDRAWN;
+    }
 }
