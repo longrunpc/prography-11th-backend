@@ -38,6 +38,10 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
+
     public void changeMemberName(MemberName name) {
         this.name = name;
     }
