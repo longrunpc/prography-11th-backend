@@ -73,11 +73,11 @@ public class Member extends BaseEntity {
     }
 
     public void changeMemberName(MemberName name) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name);
     }
 
     public void changePhone(Phone phone) {
-        this.phone = phone;
+        this.phone = Objects.requireNonNull(phone);
     }
 
     public boolean isAdmin() {
