@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.longrunpc.domain.cohort.vo.Generation;
 import com.longrunpc.domain.common.entity.BaseEntity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +26,6 @@ public class Cohort extends BaseEntity {
     private Long id;
 
     @Embedded
-    @Column(name = "generation", nullable = false)
     private Generation generation;
 
     // Cohort는 생성할 일이 없지만 테스트용으로 남겨둠

@@ -11,19 +11,19 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
-public class Generation {
-
-    @Column(name = "generation", nullable = false)
+public class PartName {
+    
+    @Column(name = "name", nullable = false)
     private String value;
 
-    public Generation(String value) {
+    public PartName(String value) {
         validate(value);
         this.value = value;
     }
 
     private void validate(String value) {
         if (value == null || value.isEmpty()) {
-            throw new IllegalArgumentException("기수가 비어 있습니다.");
+            throw new IllegalArgumentException("Part 이름이 비어 있습니다.");
         }
     }
 }
