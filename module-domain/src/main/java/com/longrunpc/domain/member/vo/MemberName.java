@@ -1,5 +1,8 @@
 package com.longrunpc.domain.member.vo;
 
+import com.longrunpc.common.error.GlobalErrorCode;
+import com.longrunpc.common.exception.BusinessException;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -12,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
 public class MemberName {
+
     @Column(name = "name", nullable = false)
     private String value;
 
@@ -22,7 +26,7 @@ public class MemberName {
     
     private void validate(String value) {
         if (value == null || value.isEmpty()) {
-            throw new IllegalArgumentException("멤버 이름이 비어 있습니다.");
+            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
     }
 }
