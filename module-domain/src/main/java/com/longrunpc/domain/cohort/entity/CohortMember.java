@@ -17,6 +17,8 @@ import lombok.Builder;
 import java.util.Objects;
 
 import com.longrunpc.common.constant.cohort.CohortConstants;
+import com.longrunpc.common.error.GlobalErrorCode;
+import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.cohort.vo.Deposit;
 import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.common.entity.BaseEntity;
@@ -76,16 +78,20 @@ public class CohortMember extends BaseEntity {
             .build();
     }
 
+    public boolean isDepositEnough(int amount) {
+        return this.deposit.getValue() >= amount;
+    }
+
     public void increaseDeposit(int amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException("Deposit 증가 시 음수 값이 입력될 수 없습니다.");
+            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
         this.deposit = new Deposit(this.deposit.getValue() + amount);
     }
 
     public void decreaseDeposit(int amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException("Deposit 감소 시 음수 값이 입력될 수 없습니다.");
+            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
         this.deposit = new Deposit(this.deposit.getValue() - amount);
     }

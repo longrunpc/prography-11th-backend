@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 
 import java.util.Objects;
 
@@ -30,16 +31,16 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "login_id", nullable = false)
+    @Embedded
     private LoginId loginId;
 
-    @Column(name = "password", nullable = false)
+    @Embedded
     private Password password;
 
-    @Column(name = "name", nullable = false)
+    @Embedded
     private MemberName name;
     
-    @Column(name = "phone", nullable = false)
+    @Embedded
     private Phone phone;
 
     @Column(name = "role", nullable = false)

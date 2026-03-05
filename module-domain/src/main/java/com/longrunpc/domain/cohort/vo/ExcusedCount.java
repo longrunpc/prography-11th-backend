@@ -1,6 +1,8 @@
 package com.longrunpc.domain.cohort.vo;
 
 import com.longrunpc.common.constant.cohort.CohortConstants;
+import com.longrunpc.common.error.GlobalErrorCode;
+import com.longrunpc.common.exception.BusinessException;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -25,10 +27,10 @@ public class ExcusedCount {
 
     private void validate(int value) {
         if (value < CohortConstants.INITIAL_EXCUSED_COUNT) {
-            throw new IllegalArgumentException("공결 횟수는 0 이상이어야 합니다.");
+            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
         if (value > CohortConstants.MAX_EXCUSED_COUNT) {
-            throw new IllegalArgumentException("공결 횟수는 3회를 초과할 수 없습니다.");
+            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
     }
 }

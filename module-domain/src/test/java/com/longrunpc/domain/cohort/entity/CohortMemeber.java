@@ -100,6 +100,32 @@ public class CohortMemeber {
         }
     }
 
+    @DisplayName("isDepositEnough 메서드 테스트")
+    @Nested
+    class IsDepositEnoughTest {
+        @DisplayName("deposit 잔액 충분 시 true 반환")
+        @Test
+        void should_return_true_when_deposit_is_enough() {
+            // given
+            CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
+            // when
+            boolean result = cohortMember.isDepositEnough(CohortConstants.INITIAL_DEPOSIT);
+            // then
+            assertThat(result).isTrue();
+        }
+
+        @DisplayName("deposit 잔액 부족 시 false 반환")
+        @Test
+        void should_return_false_when_deposit_is_not_enough() {
+            // given
+            CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
+            // when
+            boolean result = cohortMember.isDepositEnough(CohortConstants.INITIAL_DEPOSIT + 1);
+            // then
+            assertThat(result).isFalse();
+        }
+    }
+
     @DisplayName("increaseDeposit 메서드 테스트")
     @Nested
     class IncreaseDepositTest {
