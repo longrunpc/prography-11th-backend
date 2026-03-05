@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
     
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -21,6 +21,7 @@ public class BaseEntity {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
