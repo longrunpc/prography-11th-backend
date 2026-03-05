@@ -1,0 +1,29 @@
+package com.longrunpc.domain.cohort.vo;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Embeddable
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
+public class Deposit {
+
+    @Column(name = "deposit", nullable = false)
+    private int value;
+
+    public Deposit(int value) {
+        validate(value);
+        this.value = value;
+    }
+
+    private void validate(int value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("Deposit는 음수 값이 될수 없습니다.");
+        }
+    }
+}
