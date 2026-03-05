@@ -37,8 +37,7 @@ CREATE TABLE COHORT_MEMBER (
     cohort_id BIGINT NOT NULL,
     part_id BIGINT,
     team_id BIGINT,
-    deposit_balance INT DEFAULT 0,
-    excused_count INT DEFAULT 0,
+    deposit INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     FOREIGN KEY (member_id) REFERENCES MEMBER(id),
