@@ -1,7 +1,5 @@
 package com.longrunpc.domain.cohort.vo;
 
-import com.longrunpc.common.constant.cohort.CohortConstants;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -24,8 +22,8 @@ public class Deposit {
     }
 
     private void validate(int value) {
-        if (value < CohortConstants.INITIAL_DEPOSIT) {
-            throw new IllegalArgumentException("Deposit는 0 이상이어야 합니다.");
+        if (value < 0) {
+            throw new IllegalArgumentException("Deposit는 음수 값이 될수 없습니다.");
         }
     }
 }

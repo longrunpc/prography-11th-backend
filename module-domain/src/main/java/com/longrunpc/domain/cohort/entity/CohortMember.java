@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 import lombok.Builder;
 
+import java.util.Objects;
+
 import com.longrunpc.common.constant.cohort.CohortConstants;
 import com.longrunpc.domain.cohort.vo.Deposit;
 import com.longrunpc.domain.cohort.vo.ExcusedCount;
@@ -55,12 +57,12 @@ public class CohortMember extends BaseEntity {
     @Builder
     private CohortMember(Long id, Member member, Cohort cohort, Part part, Team team, Deposit deposit, ExcusedCount excusedCount) {
         this.id = id;
-        this.member = member;
-        this.cohort = cohort;
+        this.member = Objects.requireNonNull(member);
+        this.cohort = Objects.requireNonNull(cohort);
         this.part = part;
         this.team = team;
-        this.deposit = deposit;
-        this.excusedCount = excusedCount;
+        this.deposit = Objects.requireNonNull(deposit);
+        this.excusedCount = Objects.requireNonNull(excusedCount);
     }
 
     public static CohortMember createCohortMember(Member member, Cohort cohort, Part part, Team team) {
@@ -75,10 +77,16 @@ public class CohortMember extends BaseEntity {
     }
 
     public void increaseDeposit(int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Deposit 증가 시 음수 값이 입력될 수 없습니다.");
+        }
         this.deposit = new Deposit(this.deposit.getValue() + amount);
     }
 
     public void decreaseDeposit(int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Deposit 감소 시 음수 값이 입력될 수 없습니다.");
+        }
         this.deposit = new Deposit(this.deposit.getValue() - amount);
     }
 
