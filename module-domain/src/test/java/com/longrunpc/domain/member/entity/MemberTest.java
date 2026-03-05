@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Nested;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.member.vo.LoginId;
 import com.longrunpc.domain.member.vo.MemberName;
 import com.longrunpc.domain.member.vo.Password;
@@ -34,7 +35,7 @@ class MemberTest {
             // then
             assertThat(member.getLoginId()).isEqualTo(new LoginId(loginId));
             assertThat(member.getPassword()).isEqualTo(new Password(password));
-            assertThat(member.getName()).isEqualTo(new MemberName(name));
+            assertThat(member.getMemberName()).isEqualTo(new MemberName(name));
             assertThat(member.getPhone()).isEqualTo(new Phone(phone));
             assertThat(member.getRole()).isEqualTo(MemberRole.USER);
             assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
@@ -72,7 +73,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -82,7 +83,7 @@ class MemberTest {
             member.changeMemberName(new MemberName("after"));
 
             // then
-            assertThat(member.getName()).isEqualTo(new MemberName("after"));
+            assertThat(member.getMemberName()).isEqualTo(new MemberName("after"));
         }
 
         @DisplayName("null 값 입력 시 예외 발생")
@@ -92,7 +93,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -115,7 +116,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -135,7 +136,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -158,7 +159,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.ADMIN)
                 .status(MemberStatus.ACTIVE)
@@ -178,7 +179,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -203,7 +204,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.WITHDRAWN)
@@ -223,7 +224,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -243,7 +244,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.INACTIVE)
@@ -254,6 +255,48 @@ class MemberTest {
 
             // then
             assertThat(isWithdrawn).isFalse();
+        }
+    }
+
+    @DisplayName("withdraw 메서드 테스트")
+    @Nested
+    class WithdrawTest {
+
+        @DisplayName("정상적인 회원탈퇴 시 회원상태 변경")
+        @Test
+        void should_change_member_status_when_valid_input() {
+            // given
+            Member member = Member.builder()
+                .loginId(new LoginId("test@example.com"))
+                .password(new Password("password"))
+                .memberName(new MemberName("before"))
+                .phone(new Phone("01012345678"))
+                .role(MemberRole.USER)
+                .status(MemberStatus.ACTIVE)
+                .build();
+
+            // when
+            member.withdraw();
+            // then
+            assertThat(member.getStatus()).isEqualTo(MemberStatus.WITHDRAWN);
+        }
+
+        @DisplayName("이미 탈퇴한 회원 탈퇴 시 예외 발생")
+        @Test
+        void should_throw_exception_when_already_withdrawn() {
+            // given
+            Member member = Member.builder()
+                .loginId(new LoginId("test@example.com"))
+                .password(new Password("password"))
+                .memberName(new MemberName("before"))
+                .phone(new Phone("01012345678"))
+                .role(MemberRole.USER) 
+                .status(MemberStatus.WITHDRAWN)
+                .build();
+
+            // when & then
+            assertThatThrownBy(() -> member.withdraw())
+                .isInstanceOf(BusinessException.class);
         }
     }
 }

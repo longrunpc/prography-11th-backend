@@ -16,6 +16,8 @@ import jakarta.persistence.Embedded;
 
 import java.util.Objects;
 
+import com.longrunpc.common.error.MemberErrorCode;
+import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.common.entity.BaseEntity;
 import com.longrunpc.domain.member.vo.LoginId;
 import com.longrunpc.domain.member.vo.MemberName;
@@ -38,7 +40,7 @@ public class Member extends BaseEntity {
     private Password password;
 
     @Embedded
-    private MemberName name;
+    private MemberName memberName;
     
     @Embedded
     private Phone phone;
@@ -52,29 +54,29 @@ public class Member extends BaseEntity {
     private MemberStatus status;
 
     @Builder
-    private Member(Long id, LoginId loginId, Password password, MemberName name, Phone phone, MemberRole role, MemberStatus status) {
+    private Member(Long id, LoginId loginId, Password password, MemberName memberName, Phone phone, MemberRole role, MemberStatus status) {
         this.id = id;
         this.loginId = Objects.requireNonNull(loginId);
         this.password = Objects.requireNonNull(password);
-        this.name = Objects.requireNonNull(name);
+        this.memberName = Objects.requireNonNull(memberName);
         this.phone = Objects.requireNonNull(phone);
         this.role = Objects.requireNonNull(role);
         this.status = Objects.requireNonNull(status);
     }
 
-    public static Member createMember(LoginId loginId, Password password, MemberName name, Phone phone) {
+    public static Member createMember(LoginId loginId, Password password, MemberName memberName, Phone phone) {
         return Member.builder()
             .loginId(loginId)
             .password(password)
-            .name(name)
+            .memberName(memberName)
             .phone(phone)
             .role(MemberRole.USER)
             .status(MemberStatus.ACTIVE)
             .build();
     }
 
-    public void changeMemberName(MemberName name) {
-        this.name = Objects.requireNonNull(name);
+    public void changeMemberName(MemberName memberName) {
+        this.memberName = Objects.requireNonNull(memberName);
     }
 
     public void changePhone(Phone phone) {
@@ -87,5 +89,12 @@ public class Member extends BaseEntity {
 
     public boolean isWithdrawn() {
         return this.status == MemberStatus.WITHDRAWN;
+    }
+
+    public void withdraw() {
+        if (this.status == MemberStatus.WITHDRAWN) {
+            throw new BusinessException(MemberErrorCode.MEMBER_ALREADY_WITHDRAWN);
+        }
+        this.status = MemberStatus.WITHDRAWN;
     }
 }

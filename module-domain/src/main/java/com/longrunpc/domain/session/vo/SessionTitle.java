@@ -1,4 +1,4 @@
-package com.longrunpc.domain.cohort.vo;
+package com.longrunpc.domain.session.vo;
 
 import com.longrunpc.common.error.GlobalErrorCode;
 import com.longrunpc.common.exception.BusinessException;
@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
-public class PartName {
-    
-    @Column(name = "part_name", nullable = false)
+public class SessionTitle {
+
+    @Column(name = "title", nullable = false)
     private String value;
 
-    public PartName(String value) {
+    public SessionTitle(String value) {
         validate(value);
         this.value = value;
     }
-
+    
     private void validate(String value) {
         if (value == null || value.isEmpty()) {
             throw new BusinessException(GlobalErrorCode.INVALID_INPUT);

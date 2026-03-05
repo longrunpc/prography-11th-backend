@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class TeamName {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "team_name", nullable = false)
     private String value;
 
     public TeamName(String value) {

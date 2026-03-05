@@ -30,7 +30,7 @@ public class Part extends BaseEntity {
     private Long id;
 
     @Embedded
-    private PartName name;
+    private PartName partName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cohort_id", nullable = false)
@@ -38,9 +38,9 @@ public class Part extends BaseEntity {
 
     // Part는 생성할 일이 없지만 테스트용으로 남겨둠
     @Builder
-    private Part(Long id, PartName name, Cohort cohort) {
+    private Part(Long id, PartName partName, Cohort cohort) {
         this.id = id;
-        this.name = Objects.requireNonNull(name);
+        this.partName = Objects.requireNonNull(partName);
         this.cohort = Objects.requireNonNull(cohort);
     }
 }
