@@ -1,5 +1,8 @@
 package com.longrunpc.domain.cohort.vo;
 
+import com.longrunpc.common.error.GlobalErrorCode;
+import com.longrunpc.common.exception.BusinessException;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -23,7 +26,7 @@ public class PartName {
 
     private void validate(String value) {
         if (value == null || value.isEmpty()) {
-            throw new IllegalArgumentException("Part 이름이 비어 있습니다.");
+            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
     }
 }

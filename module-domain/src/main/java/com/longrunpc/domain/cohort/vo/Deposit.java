@@ -1,5 +1,9 @@
 package com.longrunpc.domain.cohort.vo;
 
+import com.longrunpc.common.error.CohortErrorCode;
+import com.longrunpc.common.error.GlobalErrorCode;
+import com.longrunpc.common.exception.BusinessException;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -23,7 +27,7 @@ public class Deposit {
 
     private void validate(int value) {
         if (value < 0) {
-            throw new IllegalArgumentException("Deposit는 음수 값이 될수 없습니다.");
+            throw new BusinessException(CohortErrorCode.DEPOSIT_INSUFFICIENT);
         }
     }
 }
