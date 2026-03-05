@@ -1,8 +1,8 @@
 package com.longrunpc.domain.cohort.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,19 +30,19 @@ public class CohortMember extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cohort_id", nullable = false)
     private Cohort cohort;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "part_id")
     private Part part;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
     
@@ -72,5 +72,17 @@ public class CohortMember extends BaseEntity {
             .deposit(new Deposit(CohortConstants.INITIAL_DEPOSIT))
             .excusedCount(new ExcusedCount(CohortConstants.INITIAL_EXCUSED_COUNT))
             .build();
+    }
+
+    public void increaseDeposit(int amount) {
+        this.deposit = new Deposit(this.deposit.getValue() + amount);
+    }
+
+    public void decreaseDeposit(int amount) {
+        this.deposit = new Deposit(this.deposit.getValue() - amount);
+    }
+
+    public void increaseExcusedCount() {
+        this.excusedCount = new ExcusedCount(this.excusedCount.getValue() + 1);
     }
 }
