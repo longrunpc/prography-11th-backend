@@ -6,38 +6,39 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Embedded;
 
 import java.util.Objects;
 
-import com.longrunpc.domain.cohort.vo.PartName;
+import com.longrunpc.domain.cohort.vo.TeamName;
 import com.longrunpc.domain.common.entity.BaseEntity;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 import lombok.Builder;
 
 @Entity
-@Table(name = "part")
+@Table(name = "team")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Part extends BaseEntity {
+public class Team extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded
-    private PartName name;
+    private TeamName name;
 
     @ManyToOne
     @JoinColumn(name = "cohort_id", nullable = false)
     private Cohort cohort;
 
-    // Part는 생성할 일이 없지만 테스트용으로 남겨둠
+    // Team는 생성할 일이 없지만 테스트용으로 남겨둠
     @Builder
-    private Part(Long id, PartName name, Cohort cohort) {
+    private Team(Long id, TeamName name, Cohort cohort) {
         this.id = id;
         this.name = Objects.requireNonNull(name);
         this.cohort = Objects.requireNonNull(cohort);
