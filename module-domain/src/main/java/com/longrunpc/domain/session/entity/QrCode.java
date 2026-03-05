@@ -12,6 +12,8 @@ import jakarta.persistence.JoinColumn;
 import java.time.LocalDateTime;
 
 import com.longrunpc.common.constant.qrCode.QrCodeConstants;
+import com.longrunpc.common.error.GlobalErrorCode;
+import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.session.vo.QrCodeHashValue;
 
 import jakarta.persistence.Column;
@@ -53,6 +55,9 @@ public class QrCode {
     }
 
     public static QrCode createQrCode(Session session) {
+        if (session == null) {
+            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
+        }
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expiresAt = now.plusHours(QrCodeConstants.EXPIRATION_HOURS);
         QrCodeHashValue hashValue = new QrCodeHashValue(QrCodeHashValue.generate());
