@@ -36,7 +36,7 @@ public class CohortMemeber {
         member = Member.builder()
             .loginId(new LoginId("test@example.com"))
             .password(new Password("password"))
-            .name(new MemberName("test"))
+            .memberName(new MemberName("test"))
             .phone(new Phone("01012345678"))
             .role(MemberRole.USER)
             .status(MemberStatus.ACTIVE)
@@ -45,11 +45,11 @@ public class CohortMemeber {
             .generation(new Generation("2026"))
             .build();
         part = Part.builder()
-            .name(new PartName("test"))
+            .partName(new PartName("test"))
             .cohort(cohort)
             .build();
         team = Team.builder()
-            .name(new TeamName("test"))
+            .teamName(new TeamName("test"))
             .cohort(cohort)
             .build();
     }

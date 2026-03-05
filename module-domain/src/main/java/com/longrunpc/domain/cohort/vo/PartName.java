@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class PartName {
     
-    @Column(name = "name", nullable = false)
+    @Column(name = "part_name", nullable = false)
     private String value;
 
     public PartName(String value) {

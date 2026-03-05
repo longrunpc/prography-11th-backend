@@ -34,7 +34,7 @@ class MemberTest {
             // then
             assertThat(member.getLoginId()).isEqualTo(new LoginId(loginId));
             assertThat(member.getPassword()).isEqualTo(new Password(password));
-            assertThat(member.getName()).isEqualTo(new MemberName(name));
+            assertThat(member.getMemberName()).isEqualTo(new MemberName(name));
             assertThat(member.getPhone()).isEqualTo(new Phone(phone));
             assertThat(member.getRole()).isEqualTo(MemberRole.USER);
             assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
@@ -72,7 +72,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -82,7 +82,7 @@ class MemberTest {
             member.changeMemberName(new MemberName("after"));
 
             // then
-            assertThat(member.getName()).isEqualTo(new MemberName("after"));
+            assertThat(member.getMemberName()).isEqualTo(new MemberName("after"));
         }
 
         @DisplayName("null 값 입력 시 예외 발생")
@@ -92,7 +92,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -115,7 +115,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -135,7 +135,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -158,7 +158,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.ADMIN)
                 .status(MemberStatus.ACTIVE)
@@ -178,7 +178,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -203,7 +203,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.WITHDRAWN)
@@ -223,7 +223,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.ACTIVE)
@@ -243,7 +243,7 @@ class MemberTest {
             Member member = Member.builder()
                 .loginId(new LoginId("test@example.com"))
                 .password(new Password("password"))
-                .name(new MemberName("before"))
+                .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
                 .role(MemberRole.USER)
                 .status(MemberStatus.INACTIVE)

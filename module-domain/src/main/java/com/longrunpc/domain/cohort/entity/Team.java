@@ -31,7 +31,7 @@ public class Team extends BaseEntity {
     private Long id;
 
     @Embedded
-    private TeamName name;
+    private TeamName teamName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cohort_id", nullable = false)
@@ -39,9 +39,9 @@ public class Team extends BaseEntity {
 
     // Team는 생성할 일이 없지만 테스트용으로 남겨둠
     @Builder
-    private Team(Long id, TeamName name, Cohort cohort) {
+    private Team(Long id, TeamName teamName, Cohort cohort) {
         this.id = id;
-        this.name = Objects.requireNonNull(name);
+        this.teamName = Objects.requireNonNull(teamName);
         this.cohort = Objects.requireNonNull(cohort);
     }
 }

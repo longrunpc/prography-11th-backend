@@ -2,7 +2,7 @@ CREATE TABLE MEMBER (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     login_id VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    name VARCHAR(50) NOT NULL,
+    member_name VARCHAR(50) NOT NULL,
     phone VARCHAR(20),
     role VARCHAR(20) DEFAULT 'USER' CHECK (role IN ('ADMIN', 'USER')),
     status VARCHAR(20) DEFAULT 'ACTIVE' CHECK (status IN ('ACTIVE', 'INACTIVE', 'WITHDRAWN')),
@@ -20,14 +20,14 @@ CREATE TABLE COHORT (
 CREATE TABLE PART (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cohort_id BIGINT NOT NULL,
-    name VARCHAR(50) NOT NULL,
+    part_name VARCHAR(50) NOT NULL,
     FOREIGN KEY (cohort_id) REFERENCES COHORT(id)
 );
 
 CREATE TABLE TEAM (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cohort_id BIGINT NOT NULL,
-    name VARCHAR(50) NOT NULL,
+    team_name VARCHAR(50) NOT NULL,
     FOREIGN KEY (cohort_id) REFERENCES COHORT(id)
 );
 
@@ -53,8 +53,8 @@ CREATE TABLE SESSION (
     title VARCHAR(100) NOT NULL,
     session_date DATE NOT NULL,
     session_time TIME NOT NULL,
-    location VARCHAR(255),
-    status VARCHAR(20) DEFAULT 'SCHEDULED' CHECK (status IN ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED')),
+    session_location VARCHAR(255),
+    session_status VARCHAR(20) DEFAULT 'SCHEDULED' CHECK (session_status IN ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (cohort_id) REFERENCES COHORT(id)
@@ -74,7 +74,7 @@ CREATE TABLE ATTENDANCE (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     session_id BIGINT NOT NULL,
     cohort_member_id BIGINT NOT NULL,
-    status VARCHAR(20) NOT NULL CHECK (status IN ('PRESENT', 'LATE', 'ABSENT', 'EXCUSED')),
+    attendance_status VARCHAR(20) NOT NULL CHECK (status IN ('PRESENT', 'LATE', 'ABSENT', 'EXCUSED')),
     late_minutes INT DEFAULT 0,
     penalty_amount INT DEFAULT 0,
     reason VARCHAR(255),
@@ -89,7 +89,7 @@ CREATE TABLE DEPOSIT_HISTORY (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cohort_member_id BIGINT NOT NULL,
     attendance_id BIGINT,
-    type VARCHAR(20) NOT NULL CHECK (type IN ('INITIAL', 'PENALTY', 'REFUND')),
+    deposit_type VARCHAR(20) NOT NULL CHECK (deposit_type IN ('INITIAL', 'PENALTY', 'REFUND')),
     amount INT NOT NULL,
     balance_after INT NOT NULL,
     description VARCHAR(255),
