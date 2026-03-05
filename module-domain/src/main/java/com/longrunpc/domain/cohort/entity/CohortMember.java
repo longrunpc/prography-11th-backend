@@ -78,6 +78,10 @@ public class CohortMember extends BaseEntity {
             .build();
     }
 
+    public boolean isDepositEnough(int amount) {
+        return this.deposit.getValue() >= amount;
+    }
+
     public void increaseDeposit(int amount) {
         if (amount < 0) {
             throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
