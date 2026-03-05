@@ -11,6 +11,9 @@ import jakarta.persistence.JoinColumn;
 
 import java.time.LocalDateTime;
 
+import com.longrunpc.common.constant.qrCode.QrCodeConstants;
+import com.longrunpc.domain.session.vo.QrCodeHashValue;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import lombok.Getter;
@@ -40,21 +43,30 @@ public class QrCode {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
     @Builder
-    private QrCode(Long id, Session session, QrCodeHashValue hashValue, LocalDateTime expiresAt, boolean isActive) {
+    private QrCode(Long id, Session session, QrCodeHashValue hashValue, LocalDateTime expiresAt, boolean isActive, LocalDateTime createdAt) {
         this.id = id;
         this.session = session;
         this.hashValue = hashValue;
         this.expiresAt = expiresAt;
         this.isActive = isActive;
+        this.createdAt = createdAt;
     }
 
-    public static QrCode createQrCode(Session session, QrCodeHashValue hashValue, LocalDateTime expiresAt) {
+    public static QrCode createQrCode(Session session) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expiresAt = now.plusHours(QrCodeConstants.EXPIRATION_HOURS);
+        QrCodeHashValue hashValue = new QrCodeHashValue(QrCodeHashValue.generate());
+
         return QrCode.builder()
             .session(session)
             .hashValue(hashValue)
             .expiresAt(expiresAt)
             .isActive(true)
+            .createdAt(now)
             .build();
     }
 }
