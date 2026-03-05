@@ -29,7 +29,7 @@ public class QrCodeTest {
         // given
         cohort = Cohort.builder()
             .id(1L)
-            .generation(new Generation("2026"))
+            .generation(new Generation("11기"))
             .build();
         session = Session.builder()
             .id(1L)
