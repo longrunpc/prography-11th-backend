@@ -40,19 +40,15 @@ public class QrCode {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive;
-
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Builder
-    private QrCode(Long id, Session session, QrCodeHashValue hashValue, LocalDateTime expiresAt, boolean isActive, LocalDateTime createdAt) {
+    private QrCode(Long id, Session session, QrCodeHashValue hashValue, LocalDateTime expiresAt, LocalDateTime createdAt) {
         this.id = id;
         this.session = session;
         this.hashValue = hashValue;
         this.expiresAt = expiresAt;
-        this.isActive = isActive;
         this.createdAt = createdAt;
     }
 
@@ -65,8 +61,15 @@ public class QrCode {
             .session(session)
             .hashValue(hashValue)
             .expiresAt(expiresAt)
-            .isActive(true)
             .createdAt(now)
             .build();
+    }
+
+    public void expire() {
+        this.expiresAt = LocalDateTime.now();
+    }
+
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(this.expiresAt);
     }
 }
