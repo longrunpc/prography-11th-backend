@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 import lombok.Builder;
 
+import com.longrunpc.common.constant.cohort.CohortConstants;
 import com.longrunpc.domain.cohort.vo.Deposit;
 import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.common.entity.BaseEntity;
@@ -24,7 +25,7 @@ import com.longrunpc.domain.member.entity.Member;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CohortMember extends BaseEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -68,8 +69,8 @@ public class CohortMember extends BaseEntity {
             .cohort(cohort)
             .part(part)
             .team(team)
-            .deposit(new Deposit(0))
-            .excusedCount(new ExcusedCount(0))
+            .deposit(new Deposit(CohortConstants.INITIAL_DEPOSIT))
+            .excusedCount(new ExcusedCount(CohortConstants.INITIAL_EXCUSED_COUNT))
             .build();
     }
 }
