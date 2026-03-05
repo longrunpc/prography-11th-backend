@@ -17,6 +17,7 @@ import lombok.Builder;
 import java.util.Objects;
 
 import com.longrunpc.common.constant.cohort.CohortConstants;
+import com.longrunpc.common.error.CohortErrorCode;
 import com.longrunpc.common.error.GlobalErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.cohort.vo.Deposit;
@@ -78,10 +79,6 @@ public class CohortMember extends BaseEntity {
             .build();
     }
 
-    public boolean isDepositEnough(int amount) {
-        return this.deposit.getValue() >= amount;
-    }
-
     public void increaseDeposit(int amount) {
         if (amount < 0) {
             throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
@@ -93,10 +90,23 @@ public class CohortMember extends BaseEntity {
         if (amount < 0) {
             throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
+        if (this.deposit.getValue() < amount) {
+            throw new BusinessException(CohortErrorCode.DEPOSIT_INSUFFICIENT);
+        }
         this.deposit = new Deposit(this.deposit.getValue() - amount);
     }
 
     public void increaseExcusedCount() {
+        if (this.excusedCount.getValue() >= CohortConstants.MAX_EXCUSED_COUNT) {
+            throw new BusinessException(CohortErrorCode.EXCUSE_LIMIT_EXCEEDED);
+        }
         this.excusedCount = new ExcusedCount(this.excusedCount.getValue() + 1);
+    }
+
+    public void decreaseExcusedCount() {
+        if (this.excusedCount.getValue() <= CohortConstants.INITIAL_EXCUSED_COUNT) {
+            throw new BusinessException(GlobalErrorCode.INTERNAL_ERROR);
+        }
+        this.excusedCount = new ExcusedCount(this.excusedCount.getValue() - 1);
     }
 }

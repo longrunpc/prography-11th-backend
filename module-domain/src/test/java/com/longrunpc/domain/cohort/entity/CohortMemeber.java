@@ -21,6 +21,7 @@ import com.longrunpc.domain.cohort.vo.Generation;
 import com.longrunpc.domain.cohort.vo.PartName;
 import com.longrunpc.domain.cohort.vo.TeamName;
 import com.longrunpc.common.constant.cohort.CohortConstants;
+import com.longrunpc.common.exception.BusinessException;
 
 @DisplayName("CohortMember 엔티티 테스트")
 public class CohortMemeber {
@@ -100,32 +101,6 @@ public class CohortMemeber {
         }
     }
 
-    @DisplayName("isDepositEnough 메서드 테스트")
-    @Nested
-    class IsDepositEnoughTest {
-        @DisplayName("deposit 잔액 충분 시 true 반환")
-        @Test
-        void should_return_true_when_deposit_is_enough() {
-            // given
-            CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
-            // when
-            boolean result = cohortMember.isDepositEnough(CohortConstants.INITIAL_DEPOSIT);
-            // then
-            assertThat(result).isTrue();
-        }
-
-        @DisplayName("deposit 잔액 부족 시 false 반환")
-        @Test
-        void should_return_false_when_deposit_is_not_enough() {
-            // given
-            CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
-            // when
-            boolean result = cohortMember.isDepositEnough(CohortConstants.INITIAL_DEPOSIT + 1);
-            // then
-            assertThat(result).isFalse();
-        }
-    }
-
     @DisplayName("increaseDeposit 메서드 테스트")
     @Nested
     class IncreaseDepositTest {
@@ -147,7 +122,7 @@ public class CohortMemeber {
             CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
             // when & then
             assertThatThrownBy(() -> cohortMember.increaseDeposit(-1))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BusinessException.class);
         }
     }
 
@@ -172,7 +147,17 @@ public class CohortMemeber {
             CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
             // when & then
             assertThatThrownBy(() -> cohortMember.decreaseDeposit(-1))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BusinessException.class);
+        }
+
+        @DisplayName("deposit 잔액 부족 시 예외 발생")
+        @Test
+        void should_throw_exception_when_deposit_is_not_enough() {
+            // given
+            CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
+            // when & then
+            assertThatThrownBy(() -> cohortMember.decreaseDeposit(CohortConstants.INITIAL_DEPOSIT + 1))
+                .isInstanceOf(BusinessException.class);
         }
     }
 
@@ -206,7 +191,49 @@ public class CohortMemeber {
 
             // when & then
             assertThatThrownBy(() -> cohortMember.increaseExcusedCount())
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(BusinessException.class);
+        }
+    }
+
+    @DisplayName("decreaseExcusedCount 메서드 테스트")
+    @Nested
+    class DecreaseExcusedCountTest {
+        @DisplayName("공결 횟수 감소 시 정상 작동")
+        @Test
+        void should_decrease_excused_count_when_valid_input() {
+            // given
+            CohortMember cohortMember = CohortMember.builder()
+                .id(1L)
+                .member(member)
+                .cohort(cohort)
+                .part(part)
+                .team(team)
+                .deposit(new Deposit(CohortConstants.INITIAL_DEPOSIT))
+                .excusedCount(new ExcusedCount(1))
+                .build();
+            // when
+            cohortMember.decreaseExcusedCount();
+            // then
+            assertThat(cohortMember.getExcusedCount()).isEqualTo(new ExcusedCount(0));
+        }
+
+        @DisplayName("공결 횟수 0 이하 시 예외 발생")
+        @Test
+        void should_throw_exception_when_zero_input() {
+            // given
+            CohortMember cohortMember = CohortMember.builder()
+                .id(1L)
+                .member(member)
+                .cohort(cohort)
+                .part(part)
+                .team(team)
+                .deposit(new Deposit(CohortConstants.INITIAL_DEPOSIT))
+                .excusedCount(new ExcusedCount(0))
+                .build();
+            
+            // when & then
+            assertThatThrownBy(() -> cohortMember.decreaseExcusedCount())
+                .isInstanceOf(BusinessException.class);
         }
     }
 }
