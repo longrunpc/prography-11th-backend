@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.longrunpc.common.error.MemberErrorCode;
@@ -29,9 +30,6 @@ import com.longrunpc.domain.member.vo.Phone;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     
     @Embedded
     private LoginId loginId;
@@ -54,8 +52,8 @@ public class Member extends BaseEntity {
     private MemberStatus status;
 
     @Builder
-    private Member(Long id, LoginId loginId, Password password, MemberName memberName, Phone phone, MemberRole role, MemberStatus status) {
-        this.id = id;
+    private Member(Long id, LoginId loginId, Password password, MemberName memberName, Phone phone, MemberRole role, MemberStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, createdAt, updatedAt);
         this.loginId = Objects.requireNonNull(loginId);
         this.password = Objects.requireNonNull(password);
         this.memberName = Objects.requireNonNull(memberName);

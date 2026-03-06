@@ -3,9 +3,6 @@ package com.longrunpc.domain.cohort.entity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -14,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.longrunpc.common.constant.cohort.CohortConstants;
@@ -30,10 +28,6 @@ import com.longrunpc.domain.member.entity.Member;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CohortMember extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
@@ -58,8 +52,8 @@ public class CohortMember extends BaseEntity {
     private ExcusedCount excusedCount;
     
     @Builder
-    private CohortMember(Long id, Member member, Cohort cohort, Part part, Team team, Deposit deposit, ExcusedCount excusedCount) {
-        this.id = id;
+    private CohortMember(Long id, Member member, Cohort cohort, Part part, Team team, Deposit deposit, ExcusedCount excusedCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, createdAt, updatedAt);
         this.member = Objects.requireNonNull(member);
         this.cohort = Objects.requireNonNull(cohort);
         this.part = part;
