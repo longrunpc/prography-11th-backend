@@ -1,4 +1,4 @@
-package com.longrunpc.domain.attendance.entity;
+package com.longrunpc.domain.cohort.entity;
 
 public enum DepositType {
     INITIAL,

@@ -1,4 +1,4 @@
-package com.longrunpc.domain.attendance.entity;
+package com.longrunpc.domain.cohort.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,10 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import com.longrunpc.domain.attendance.vo.Description;
+import com.longrunpc.domain.attendance.entity.Attendance;
 import com.longrunpc.domain.attendance.vo.LateMinutes;
-import com.longrunpc.domain.cohort.entity.Cohort;
-import com.longrunpc.domain.cohort.entity.CohortMember;
+import com.longrunpc.domain.cohort.vo.Description;
 import com.longrunpc.domain.cohort.vo.Deposit;
 import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.cohort.vo.Generation;

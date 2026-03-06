@@ -1,4 +1,4 @@
-package com.longrunpc.domain.attendance.entity;
+package com.longrunpc.domain.cohort.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,8 +13,8 @@ import jakarta.persistence.EnumType;
 
 import java.time.LocalDateTime;
 
-import com.longrunpc.domain.attendance.vo.Description;
-import com.longrunpc.domain.cohort.entity.CohortMember;
+import com.longrunpc.domain.attendance.entity.Attendance;
+import com.longrunpc.domain.cohort.vo.Description;
 import com.longrunpc.domain.common.entity.BaseEntity;
 
 @Entity

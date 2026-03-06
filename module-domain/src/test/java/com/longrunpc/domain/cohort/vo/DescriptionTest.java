@@ -1,4 +1,4 @@
-package com.longrunpc.domain.attendance.vo;
+package com.longrunpc.domain.cohort.vo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

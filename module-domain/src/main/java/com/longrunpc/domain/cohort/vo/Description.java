@@ -1,4 +1,4 @@
-package com.longrunpc.domain.attendance.vo;
+package com.longrunpc.domain.cohort.vo;
 
 import com.longrunpc.common.error.GlobalErrorCode;
 import com.longrunpc.common.exception.BusinessException;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
 public class Description {
-    
+
     @Column(name = "description", nullable = false)
     private String value;
 
