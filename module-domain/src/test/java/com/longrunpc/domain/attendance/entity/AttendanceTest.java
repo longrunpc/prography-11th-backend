@@ -18,6 +18,7 @@ import com.longrunpc.domain.attendance.vo.PenaltyAmount;
 import com.longrunpc.domain.attendance.vo.Reason;
 import com.longrunpc.domain.cohort.entity.Cohort;
 import com.longrunpc.domain.cohort.entity.CohortMember;
+import com.longrunpc.domain.cohort.vo.CohortName;
 import com.longrunpc.domain.cohort.vo.Deposit;
 import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.cohort.vo.Generation;
@@ -46,7 +47,8 @@ public class AttendanceTest {
         // given
         Cohort cohort = Cohort.builder()
             .id(1L)
-            .generation(new Generation("11기"))
+            .generation(new Generation(11))
+            .cohortName(new CohortName("11기"))
             .build();
 
         Member member = Member.builder()

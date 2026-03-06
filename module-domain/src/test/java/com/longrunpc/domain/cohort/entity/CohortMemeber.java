@@ -15,6 +15,7 @@ import com.longrunpc.domain.member.vo.LoginId;
 import com.longrunpc.domain.member.vo.Password;
 import com.longrunpc.domain.member.vo.MemberName;
 import com.longrunpc.domain.member.vo.Phone;
+import com.longrunpc.domain.cohort.vo.CohortName;
 import com.longrunpc.domain.cohort.vo.Deposit;
 import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.cohort.vo.Generation;
@@ -42,7 +43,8 @@ public class CohortMemeber {
             .status(MemberStatus.ACTIVE)
             .build();
         cohort = Cohort.builder()
-            .generation(new Generation("2026"))
+            .generation(new Generation(11))
+            .cohortName(new CohortName("11기"))
             .build();
         part = Part.builder()
             .partName(new PartName("test"))
