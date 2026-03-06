@@ -55,7 +55,7 @@ public class AttendanceTest {
             .password(new Password("password"))
             .memberName(new MemberName("test"))
             .phone(new Phone("01012345678"))
-            .role(MemberRole.USER)
+            .role(MemberRole.MEMBER)
             .status(MemberStatus.ACTIVE)
             .build();
 

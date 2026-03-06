@@ -38,7 +38,7 @@ public class CohortMemeber {
             .password(new Password("password"))
             .memberName(new MemberName("test"))
             .phone(new Phone("01012345678"))
-            .role(MemberRole.USER)
+            .role(MemberRole.MEMBER)
             .status(MemberStatus.ACTIVE)
             .build();
         cohort = Cohort.builder()
