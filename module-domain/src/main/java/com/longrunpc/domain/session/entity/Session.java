@@ -1,9 +1,6 @@
 package com.longrunpc.domain.session.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -36,9 +33,6 @@ import lombok.Builder;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Session extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cohort_id", nullable = false)
@@ -60,8 +54,8 @@ public class Session extends BaseEntity {
     private SessionStatus sessionStatus;
 
     @Builder
-    private Session(Long id, Cohort cohort, SessionTitle title, LocalDate sessionDate, LocalTime sessionTime, SessionLocation sessionLocation, SessionStatus sessionStatus) {
-        this.id = id;
+    private Session(Long id, Cohort cohort, SessionTitle title, LocalDate sessionDate, LocalTime sessionTime, SessionLocation sessionLocation, SessionStatus sessionStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, createdAt, updatedAt);
         this.cohort = Objects.requireNonNull(cohort);
         this.title = Objects.requireNonNull(title);
         this.sessionDate = Objects.requireNonNull(sessionDate);
