@@ -2,12 +2,14 @@ package com.longrunpc.domain.cohort.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Embedded;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.longrunpc.domain.cohort.vo.TeamName;
@@ -24,6 +26,10 @@ import lombok.Builder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Team extends BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Embedded
     private TeamName teamName;
 
@@ -33,8 +39,8 @@ public class Team extends BaseEntity {
 
     // Team는 생성할 일이 없지만 테스트용으로 남겨둠
     @Builder
-    private Team(Long id, TeamName teamName, Cohort cohort, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super(id, createdAt, updatedAt);
+    private Team(Long id, TeamName teamName, Cohort cohort) {
+        this.id = id;
         this.teamName = Objects.requireNonNull(teamName);
         this.cohort = Objects.requireNonNull(cohort);
     }

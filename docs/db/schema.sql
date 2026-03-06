@@ -75,7 +75,6 @@ CREATE TABLE QR_CODE (
 CREATE TABLE ATTENDANCE (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     session_id BIGINT NOT NULL,
-    qr_code_id BIGINT NOT NULL,
     cohort_member_id BIGINT NOT NULL,
     attendance_status VARCHAR(20) NOT NULL CHECK (status IN ('PRESENT', 'LATE', 'ABSENT', 'EXCUSED')),
     late_minutes INT DEFAULT 0,
@@ -94,7 +93,7 @@ CREATE TABLE DEPOSIT_HISTORY (
     cohort_member_id BIGINT NOT NULL,
     attendance_id BIGINT,
     deposit_type VARCHAR(20) NOT NULL CHECK (deposit_type IN ('INITIAL', 'PENALTY', 'REFUND')),
-    deposit_amount INT NOT NULL,
+    amount INT NOT NULL,
     balance_after INT NOT NULL,
     description VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
