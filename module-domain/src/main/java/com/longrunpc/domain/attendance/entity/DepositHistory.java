@@ -2,16 +2,18 @@ package com.longrunpc.domain.attendance.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
+
+import java.time.LocalDateTime;
+
+import com.longrunpc.domain.attendance.vo.Description;
 import com.longrunpc.domain.cohort.entity.CohortMember;
 import com.longrunpc.domain.common.entity.BaseEntity;
 
@@ -31,33 +33,23 @@ public class DepositHistory extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private DepositType depositType;
 
-    @Column(name = "amount", nullable = false)
+    @Column(name = "deposit_amount", nullable = false)
     private int amount;
 
     @Column(name = "balance_after", nullable = false)
     private int balanceAfter;
 
-    @Column(name = "description", nullable = false)
-    private String description;
+    @Embedded
+    private Description description;
 
     @Builder
-    private DepositHistory(CohortMember cohortMember, Attendance attendance, DepositType depositType, int amount, int balanceAfter, String description) {
+    private DepositHistory(Long id, CohortMember cohortMember, Attendance attendance, DepositType depositType, int amount, int balanceAfter, Description description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, createdAt, updatedAt);
         this.cohortMember = cohortMember;
         this.attendance = attendance;
         this.depositType = depositType;
         this.amount = amount;
         this.balanceAfter = balanceAfter;
         this.description = description;
-    }
-
-    public static DepositHistory createDepositHistory(CohortMember cohortMember, Attendance attendance, DepositType depositType, int amount, int balanceAfter, String description) {
-        return DepositHistory.builder()
-            .cohortMember(cohortMember)
-            .attendance(attendance)
-            .depositType(depositType)
-            .amount(amount)
-            .balanceAfter(balanceAfter)
-            .description(description)
-            .build();
     }
 }

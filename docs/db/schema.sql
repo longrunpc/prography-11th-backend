@@ -94,7 +94,7 @@ CREATE TABLE DEPOSIT_HISTORY (
     cohort_member_id BIGINT NOT NULL,
     attendance_id BIGINT,
     deposit_type VARCHAR(20) NOT NULL CHECK (deposit_type IN ('INITIAL', 'PENALTY', 'REFUND')),
-    amount INT NOT NULL,
+    deposit_amount INT NOT NULL,
     balance_after INT NOT NULL,
     description VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
