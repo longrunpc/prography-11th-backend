@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
 public class PenaltyAmount {
-    
+
     @Column(name = "penalty_amount", nullable = false)
     private int value;
 
@@ -27,5 +27,9 @@ public class PenaltyAmount {
         if (value < 0) {
             throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
+    }
+
+    public static int penaltyAmountDiff(PenaltyAmount oldPenaltyAmount, PenaltyAmount newPenaltyAmount) {
+        return newPenaltyAmount.getValue() - oldPenaltyAmount.getValue();
     }
 }
