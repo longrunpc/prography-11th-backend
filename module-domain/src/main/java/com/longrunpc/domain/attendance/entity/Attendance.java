@@ -19,7 +19,6 @@ import java.util.Objects;
 import com.longrunpc.domain.common.entity.BaseEntity;
 import com.longrunpc.domain.session.entity.Session;
 import com.longrunpc.domain.cohort.entity.CohortMember;
-import com.longrunpc.domain.attendance.vo.AttendanceStatus;
 import com.longrunpc.domain.attendance.vo.LateMinutes;
 import com.longrunpc.domain.attendance.vo.PenaltyAmount;
 import com.longrunpc.domain.attendance.vo.Reason;
@@ -56,7 +55,7 @@ public class Attendance extends BaseEntity {
     @Embedded
     private PenaltyAmount penaltyAmount;
 
-    @Column(name = "reason", nullable = false)
+    @Embedded
     private Reason reason;
 
     @Column(name = "checked_in_at", nullable = false)
@@ -69,9 +68,9 @@ public class Attendance extends BaseEntity {
         this.cohortMember = Objects.requireNonNull(cohortMember);
         this.attendanceStatus = Objects.requireNonNull(attendanceStatus);
         this.lateMinutes = lateMinutes;
-        this.penaltyAmount = penaltyAmount;
+        this.penaltyAmount = Objects.requireNonNull(penaltyAmount);
         this.reason = reason;
-        this.checkedInAt = checkedInAt;
+        this.checkedInAt = Objects.requireNonNull(checkedInAt);
     }
 
     public static Attendance createAttendance(Session session, CohortMember cohortMember, AttendanceStatus attendanceStatus, LateMinutes lateMinutes, PenaltyAmount penaltyAmount, Reason reason, LocalDateTime checkedInAt) {
