@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.longrunpc.api.admin.member.dto.request.RegisterMemberRequest;
-import com.longrunpc.api.admin.member.dto.response.AdminMemberResponse;
+import com.longrunpc.api.admin.member.dto.response.MemberDetailResponse;
 import com.longrunpc.common.error.CohortErrorCode;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.common.exception.BusinessException;
@@ -41,7 +41,7 @@ public class RegisterMemberUsecase {
     private final PasswordEncoder passwordEncoder;
     
     @Transactional
-    public AdminMemberResponse execute(RegisterMemberRequest request) {
+    public MemberDetailResponse execute(RegisterMemberRequest request) {
         // 아이디 중복 검사
         if (memberRepository.findByLoginId(new LoginId(request.loginId())).isPresent()) {
             throw new BusinessException(MemberErrorCode.DUPLICATE_LOGIN_ID);
@@ -81,7 +81,7 @@ public class RegisterMemberUsecase {
         DepositHistory depositHistory = DepositHistory.initialDeposit(cohortMember);
         depositHistoryRepository.save(depositHistory);
 
-        return AdminMemberResponse.of(
+        return MemberDetailResponse.of(
             savedMember, 
             cohort.getGeneration().getValue(), 
             part != null ? part.getPartName().getValue() : null, 

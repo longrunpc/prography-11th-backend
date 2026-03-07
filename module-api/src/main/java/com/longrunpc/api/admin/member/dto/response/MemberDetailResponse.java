@@ -2,6 +2,7 @@ package com.longrunpc.api.admin.member.dto.response;
 
 import java.time.LocalDateTime;
 
+import com.longrunpc.domain.cohort.entity.CohortMember;
 import com.longrunpc.domain.member.entity.Member;
 import com.longrunpc.domain.member.entity.MemberRole;
 import com.longrunpc.domain.member.entity.MemberStatus;
@@ -9,7 +10,7 @@ import com.longrunpc.domain.member.entity.MemberStatus;
 import lombok.Builder;
 
 @Builder
-public record AdminMemberResponse(
+public record MemberDetailResponse(
     Long id,
     String loginId,
     String name,
@@ -22,8 +23,8 @@ public record AdminMemberResponse(
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {
-    public static AdminMemberResponse of(Member member, int generation, String partName, String teamName) {
-        return AdminMemberResponse.builder()
+    public static MemberDetailResponse of(Member member, int generation, String partName, String teamName) {
+        return MemberDetailResponse.builder()
             .id(member.getId())
             .loginId(member.getLoginId().getValue())
             .name(member.getMemberName().getValue())
@@ -36,5 +37,14 @@ public record AdminMemberResponse(
             .createdAt(member.getCreatedAt())
             .updatedAt(member.getUpdatedAt())
             .build();
+    }
+
+    public static MemberDetailResponse of(CohortMember cohortMember) {
+        return of(
+            cohortMember.getMember(),
+            cohortMember.getCohort().getGeneration().getValue(),
+            cohortMember.getPart() != null ? cohortMember.getPart().getPartName().getValue() : null,
+            cohortMember.getTeam() != null ? cohortMember.getTeam().getTeamName().getValue() : null
+        );
     }
 }
