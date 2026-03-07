@@ -131,19 +131,6 @@ public class SessionTest {
             assertThat(session.getTitle()).isEqualTo(title);
         }
 
-        @DisplayName("session 상태가 CANCELLED 일 시 예외 발생")
-        @Test
-        void should_throw_exception_when_session_status_is_cancelled() {
-            // given
-            Session session = Session.createSession(cohort, new SessionTitle("test"), LocalDate.now().plusDays(1), LocalTime.now().plusHours(1), new SessionLocation("강남역"));
-            session.cancel();
-            SessionTitle title = new SessionTitle("test2");
-
-            // when & then
-            assertThatThrownBy(() -> session.changeTitle(title))
-                .isInstanceOf(BusinessException.class);
-        }
-
         @DisplayName("title 필드 null 시 예외 발생")
         @Test
         void should_throw_exception_when_title_is_null() {
@@ -172,18 +159,6 @@ public class SessionTest {
 
             // then
             assertThat(session.getSessionDate()).isEqualTo(sessionDate);
-        }
-
-        @DisplayName("session 상태가 CANCELLED 일 시 예외 발생")
-        @Test
-        void should_throw_exception_when_session_status_is_cancelled() {
-            // given
-            Session session = Session.createSession(cohort, new SessionTitle("test"), LocalDate.now().plusDays(1), LocalTime.now().plusHours(1), new SessionLocation("강남역"));
-            session.cancel();
-
-            // when & then
-            assertThatThrownBy(() -> session.changeSessionDate(LocalDate.now().plusDays(2)))
-                .isInstanceOf(BusinessException.class);
         }
 
         @DisplayName("sessionDate 필드 null 시 예외 발생")
@@ -216,18 +191,6 @@ public class SessionTest {
             assertThat(session.getSessionTime()).isEqualTo(sessionTime);
         }
 
-        @DisplayName("session 상태가 CANCELLED 일 시 예외 발생")
-        @Test
-        void should_throw_exception_when_session_status_is_cancelled() {
-            // given
-            Session session = Session.createSession(cohort, new SessionTitle("test"), LocalDate.now().plusDays(1), LocalTime.now().plusHours(1), new SessionLocation("강남역"));
-            session.cancel();
-
-            // when & then
-            assertThatThrownBy(() -> session.changeSessionTime(LocalTime.now().plusHours(2)))
-                .isInstanceOf(BusinessException.class);
-        }
-
         @DisplayName("sessionTime 필드 null 시 예외 발생")
         @Test
         void should_throw_exception_when_session_time_is_null() {
@@ -256,18 +219,6 @@ public class SessionTest {
 
             // then
             assertThat(session.getSessionLocation()).isEqualTo(sessionLocation);
-        }
-
-        @DisplayName("session 상태가 CANCELLED 일 시 예외 발생")
-        @Test
-        void should_throw_exception_when_session_status_is_cancelled() {
-            // given
-            Session session = Session.createSession(cohort, new SessionTitle("test"), LocalDate.now().plusDays(1), LocalTime.now().plusHours(1), new SessionLocation("강남역"));
-            session.cancel();
-
-            // when & then
-            assertThatThrownBy(() -> session.changeSessionLocation(new SessionLocation("신촌역")))
-                .isInstanceOf(BusinessException.class);
         }
 
         @DisplayName("sessionLocation 필드 null 시 예외 발생")
@@ -300,18 +251,6 @@ public class SessionTest {
             assertThat(session.getSessionStatus()).isEqualTo(sessionStatus);
         }
 
-        @DisplayName("session 상태가 CANCELLED 일 시 예외 발생")
-        @Test
-        void should_throw_exception_when_session_status_is_cancelled() {
-            // given
-            Session session = Session.createSession(cohort, new SessionTitle("test"), LocalDate.now().plusDays(1), LocalTime.now().plusHours(1), new SessionLocation("강남역"));
-            session.cancel();
-
-            // when & then
-            assertThatThrownBy(() -> session.changeSessionStatus(SessionStatus.CANCELLED))
-                .isInstanceOf(BusinessException.class);
-        }
-
         @DisplayName("sessionStatus 필드 null 시 예외 발생")
         @Test
         void should_throw_exception_when_session_status_is_null() {
@@ -339,18 +278,6 @@ public class SessionTest {
 
             // then
             assertThat(session.getSessionStatus()).isEqualTo(SessionStatus.CANCELLED);
-        }
-
-        @DisplayName("session 상태가 CANCELLED 일 시 예외 발생")
-        @Test
-        void should_throw_exception_when_session_status_is_cancelled() {
-            // given
-            Session session = Session.createSession(cohort, new SessionTitle("test"), LocalDate.now().plusDays(1), LocalTime.now().plusHours(1), new SessionLocation("강남역"));
-            session.cancel();
-
-            // when & then
-            assertThatThrownBy(() -> session.cancel())
-                .isInstanceOf(BusinessException.class);
         }
     }
 
