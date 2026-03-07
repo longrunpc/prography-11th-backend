@@ -1,4 +1,4 @@
-package com.longrunpc.common.attendance;
+package com.longrunpc.common.constant.attendance;
 
 public final class AttendanceConstants {
     private AttendanceConstants() {}
