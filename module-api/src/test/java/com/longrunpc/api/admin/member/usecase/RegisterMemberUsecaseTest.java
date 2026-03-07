@@ -1,9 +1,9 @@
 package com.longrunpc.api.admin.member.usecase;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Optional;
 
@@ -17,12 +17,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.longrunpc.api.admin.member.dto.request.RegisterMemberRequest;
+import com.longrunpc.api.admin.member.dto.response.AdminMemberResponse;
 import com.longrunpc.common.error.CohortErrorCode;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.cohort.entity.Cohort;
-import com.longrunpc.domain.cohort.entity.CohortMember;
-import com.longrunpc.domain.cohort.entity.DepositHistory;
 import com.longrunpc.domain.cohort.entity.Part;
 import com.longrunpc.domain.cohort.entity.Team;
 import com.longrunpc.domain.cohort.repository.CohortMemberRepository;
@@ -101,18 +100,35 @@ public class RegisterMemberUsecaseTest {
             1L,
             1L
         );
+        given(memberRepository.findByLoginId(new LoginId("test@example.com"))).willReturn(Optional.empty());
         given(cohortRepository.findById(1L)).willReturn(Optional.of(cohort));
         given(partRepository.findById(1L)).willReturn(Optional.of(part));
         given(teamRepository.findById(1L)).willReturn(Optional.of(team));
         given(passwordEncoder.encode("password")).willReturn("encodedPassword");
+        given(memberRepository.save(any(Member.class))).willReturn(Member.builder()
+            .id(1L)
+            .loginId(new LoginId("test@example.com"))
+            .password(new Password("encodedPassword"))
+            .memberName(new MemberName("test"))
+            .phone(new Phone("01012345678"))
+            .role(MemberRole.MEMBER)
+            .status(MemberStatus.ACTIVE)
+            .build());
+
 
         // when
-        registerMemberUsecase.execute(request);
+        AdminMemberResponse result = registerMemberUsecase.execute(request);
 
         // then
-        verify(memberRepository).save(any(Member.class));
-        verify(cohortMemberRepository).save(any(CohortMember.class));
-        verify(depositHistoryRepository).save(any(DepositHistory.class));
+        assertThat(result.id()).isEqualTo(1L);
+        assertThat(result.loginId()).isEqualTo("test@example.com");
+        assertThat(result.name()).isEqualTo("test");
+        assertThat(result.phone()).isEqualTo("01012345678");
+        assertThat(result.status()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(result.role()).isEqualTo(MemberRole.MEMBER);
+        assertThat(result.generation()).isEqualTo(cohort.getGeneration().getValue());
+        assertThat(result.partName()).isEqualTo(part.getPartName().getValue());
+        assertThat(result.teamName()).isEqualTo(team.getTeamName().getValue());
     }
 
     @DisplayName("회원 가입 실패 - 아이디 중복")
