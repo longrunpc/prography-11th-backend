@@ -11,4 +11,8 @@ public final class CohortConstants {
 
     public static final int DEFAULT_PAGE = 0;
     public static final int DEFAULT_SIZE = 10;
+
+    public static final String SEARCH_TYPE_NAME = "name";
+    public static final String SEARCH_TYPE_LOGIN_ID = "loginId";
+    public static final String SEARCH_TYPE_PHONE = "phone";
 }

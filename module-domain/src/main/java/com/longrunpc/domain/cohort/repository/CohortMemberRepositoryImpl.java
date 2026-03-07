@@ -13,7 +13,7 @@ import java.util.List;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
+import com.longrunpc.common.constant.cohort.CohortConstants;
 import com.longrunpc.domain.cohort.entity.CohortMember;
 import com.longrunpc.domain.member.entity.MemberStatus;
 
@@ -46,13 +46,13 @@ public class CohortMemberRepositoryImpl implements CohortMemberRepositoryCustom 
         if (searchType == null || searchValue == null) {
             return null;
         }
-        if (searchType.equalsIgnoreCase("name")) {
+        if (searchType.equalsIgnoreCase(CohortConstants.SEARCH_TYPE_NAME)) {
             return member.memberName.value.containsIgnoreCase(searchValue);
         } 
-        if (searchType.equalsIgnoreCase("loginId")) {
+        if (searchType.equalsIgnoreCase(CohortConstants.SEARCH_TYPE_LOGIN_ID)) {
             return member.loginId.value.containsIgnoreCase(searchValue);
         }
-        if (searchType.equalsIgnoreCase("phone")) {
+        if (searchType.equalsIgnoreCase(CohortConstants.SEARCH_TYPE_PHONE)) {
             return member.phone.value.contains(searchValue);
         }
         return null;
