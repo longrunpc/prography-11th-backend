@@ -12,7 +12,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+import com.longrunpc.common.constant.cohort.CohortConstants;
 import com.longrunpc.domain.attendance.entity.Attendance;
 import com.longrunpc.domain.cohort.vo.Description;
 import com.longrunpc.domain.common.entity.BaseEntity;
@@ -26,7 +28,7 @@ public class DepositHistory extends BaseEntity {
     private CohortMember cohortMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attendance_id", nullable = false)
+    @JoinColumn(name = "attendance_id")
     private Attendance attendance;
 
     @Column(name = "deposit_type", nullable = false)
@@ -45,11 +47,22 @@ public class DepositHistory extends BaseEntity {
     @Builder
     private DepositHistory(Long id, CohortMember cohortMember, Attendance attendance, DepositType depositType, int amount, int balanceAfter, Description description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id, createdAt, updatedAt);
-        this.cohortMember = cohortMember;
+        this.cohortMember = Objects.requireNonNull(cohortMember);
         this.attendance = attendance;
-        this.depositType = depositType;
+        this.depositType = Objects.requireNonNull(depositType);
         this.amount = amount;
         this.balanceAfter = balanceAfter;
         this.description = description;
+    }
+
+    public static DepositHistory initialDeposit(CohortMember cohortMember) {
+        return DepositHistory.builder()
+            .cohortMember(cohortMember)
+            .attendance(null)
+            .depositType(DepositType.INITIAL)
+            .amount(CohortConstants.INITIAL_DEPOSIT)
+            .balanceAfter(CohortConstants.INITIAL_DEPOSIT)
+            .description(new Description(CohortConstants.INITIAL_DEPOSIT_DESCRIPTION))
+            .build();
     }
 }

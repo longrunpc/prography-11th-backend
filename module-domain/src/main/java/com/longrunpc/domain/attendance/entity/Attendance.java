@@ -17,7 +17,7 @@ import com.longrunpc.domain.common.entity.BaseEntity;
 import com.longrunpc.domain.session.entity.QrCode;
 import com.longrunpc.domain.session.entity.Session;
 import com.longrunpc.domain.cohort.entity.CohortMember;
-import com.longrunpc.common.attendance.AttendanceConstants;
+import com.longrunpc.common.constant.attendance.AttendanceConstants;
 import com.longrunpc.common.error.GlobalErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.attendance.vo.LateMinutes;
