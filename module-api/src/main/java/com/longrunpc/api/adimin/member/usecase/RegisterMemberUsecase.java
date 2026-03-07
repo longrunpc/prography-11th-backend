@@ -1,5 +1,6 @@
 package com.longrunpc.api.adimin.member.usecase;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +30,14 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class RegisterMemberUsecase {
+
     private final MemberRepository memberRepository;
     private final CohortMemberRepository cohortMemberRepository;   
     private final DepositHistoryRepository depositHistoryRepository;
     private final CohortRepository cohortRepository;
     private final PartRepository partRepository;
     private final TeamRepository teamRepository;
+    private final PasswordEncoder passwordEncoder;
     
     @Transactional
     public void execute(RegisterMemberRequest request) {
@@ -46,19 +49,20 @@ public class RegisterMemberUsecase {
         // 기수, 파트, 팀 존재 검증
         Cohort cohort = cohortRepository.findById(request.cohortId())
                             .orElseThrow(() -> new BusinessException(CohortErrorCode.COHORT_NOT_FOUND));
-        Part part = request.partId() != null ? partRepository.findById(request.partId())
-                        .orElseThrow(() -> new BusinessException(CohortErrorCode.PART_NOT_FOUND))
-                        : null;
-        Team team = request.teamId() != null ? teamRepository.findById(request.teamId())
-                        .orElseThrow(() -> new BusinessException(CohortErrorCode.TEAM_NOT_FOUND))
-                        : null;
+        Part part = request.partId() == null ? null : 
+            partRepository.findById(request.partId())
+                .orElseThrow(() -> new BusinessException(CohortErrorCode.PART_NOT_FOUND));
+        Team team = request.teamId() == null ? null : 
+            teamRepository.findById(request.teamId())
+                .orElseThrow(() -> new BusinessException(CohortErrorCode.TEAM_NOT_FOUND));
         
-        // TODO: 비밀번호 암호화
-
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(request.password());
+        
         // member 생성
         Member member = Member.createMember(
             new LoginId(request.loginId()),
-            new Password(request.password()),
+            new Password(encodedPassword),
             new MemberName(request.memberName()),
             new Phone(request.phone())
         );

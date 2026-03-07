@@ -15,4 +15,7 @@ dependencies {
 
     testCompileOnly "org.projectlombok:lombok:1.18.34"
     testAnnotationProcessor "org.projectlombok:lombok:1.18.34"
+
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
