@@ -8,15 +8,15 @@ import com.longrunpc.domain.member.entity.MemberStatus;
 import lombok.Builder;
 
 @Builder
-public record DeleteMemberResponse(
+public record WithdrawMemberResponse(
     Long id,
     String loginId,
     String name,
     MemberStatus status,
     LocalDateTime updatedAt
 ) {
-    public static DeleteMemberResponse of(Member member) {
-        return DeleteMemberResponse.builder()
+    public static WithdrawMemberResponse of(Member member) {
+        return WithdrawMemberResponse.builder()
             .id(member.getId())
             .loginId(member.getLoginId().getValue())
             .name(member.getMemberName().getValue())

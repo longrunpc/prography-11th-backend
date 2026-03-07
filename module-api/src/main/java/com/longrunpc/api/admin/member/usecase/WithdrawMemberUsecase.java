@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.longrunpc.domain.member.entity.Member;
 import com.longrunpc.domain.member.repository.MemberRepository;
-import com.longrunpc.api.admin.member.dto.response.DeleteMemberResponse;
+import com.longrunpc.api.admin.member.dto.response.WithdrawMemberResponse;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 
@@ -17,7 +17,7 @@ public class WithdrawMemberUsecase {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public DeleteMemberResponse execute(Long memberId) {
+    public WithdrawMemberResponse execute(Long memberId) {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new BusinessException(MemberErrorCode.MEMBER_NOT_FOUND));
 
@@ -27,6 +27,6 @@ public class WithdrawMemberUsecase {
         
         member.withdraw();
 
-        return DeleteMemberResponse.of(member);
+        return WithdrawMemberResponse.of(member);
     }
 }
