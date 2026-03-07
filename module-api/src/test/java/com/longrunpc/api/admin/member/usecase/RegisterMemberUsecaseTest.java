@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.longrunpc.api.admin.member.dto.request.RegisterMemberRequest;
-import com.longrunpc.api.admin.member.dto.response.AdminMemberResponse;
+import com.longrunpc.api.admin.member.dto.response.MemberDetailResponse;
 import com.longrunpc.common.error.CohortErrorCode;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.common.exception.BusinessException;
@@ -117,7 +117,7 @@ public class RegisterMemberUsecaseTest {
 
 
         // when
-        AdminMemberResponse result = registerMemberUsecase.execute(request);
+        MemberDetailResponse result = registerMemberUsecase.execute(request);
 
         // then
         assertThat(result.id()).isEqualTo(1L);
