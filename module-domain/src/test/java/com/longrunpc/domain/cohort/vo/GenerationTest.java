@@ -15,28 +15,18 @@ public class GenerationTest {
     @Test
     void should_create_generation_when_valid_input() {
         // given
-        String value = "2026";
+        int value = 11;
         // when
         Generation generation = new Generation(value);
         // then
         assertThat(generation.getValue()).isEqualTo(value);
     }
 
-    @DisplayName("null 값으로 생성 시 예외 발생")
+    @DisplayName("음수 값으로 생성 시 예외 발생")
     @Test
-    void should_throw_exception_when_null_input() {
+    void should_throw_exception_when_negative_input() {
         // given
-        String value = null;
-        // when & then
-        assertThatThrownBy(() -> new Generation(value))
-            .isInstanceOf(BusinessException.class);
-    }
-
-    @DisplayName("빈 문자열로 생성 시 예외 발생")
-    @Test
-    void should_throw_exception_when_empty_input() {
-        // given
-        String value = "";
+        int value = -1;
         // when & then
         assertThatThrownBy(() -> new Generation(value))
             .isInstanceOf(BusinessException.class);

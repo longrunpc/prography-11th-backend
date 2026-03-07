@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.cohort.entity.Cohort;
+import com.longrunpc.domain.cohort.vo.CohortName;
 import com.longrunpc.domain.cohort.vo.Generation;
 import com.longrunpc.domain.session.vo.SessionLocation;
 import com.longrunpc.domain.session.vo.SessionTitle;
@@ -27,7 +28,8 @@ public class SessionTest {
         // given
         cohort = Cohort.builder()
             .id(1L)
-            .generation(new Generation("11기"))
+            .generation(new Generation(11))
+            .cohortName(new CohortName("11기"))
             .build();
     }
 

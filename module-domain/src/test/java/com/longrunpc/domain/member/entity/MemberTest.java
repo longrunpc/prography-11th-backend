@@ -37,7 +37,7 @@ class MemberTest {
             assertThat(member.getPassword()).isEqualTo(new Password(password));
             assertThat(member.getMemberName()).isEqualTo(new MemberName(name));
             assertThat(member.getPhone()).isEqualTo(new Phone(phone));
-            assertThat(member.getRole()).isEqualTo(MemberRole.USER);
+            assertThat(member.getRole()).isEqualTo(MemberRole.MEMBER);
             assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
         }
 
@@ -75,7 +75,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.ACTIVE)
                 .build();
 
@@ -95,7 +95,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.ACTIVE)
                 .build();
 
@@ -118,7 +118,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.ACTIVE)
                 .build();
 
@@ -138,7 +138,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.ACTIVE)
                 .build();
 
@@ -181,7 +181,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.ACTIVE)
                 .build();
 
@@ -206,7 +206,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.WITHDRAWN)
                 .build();
 
@@ -226,7 +226,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.ACTIVE)
                 .build();
 
@@ -246,7 +246,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.INACTIVE)
                 .build();
 
@@ -271,7 +271,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER)
+                .role(MemberRole.MEMBER)
                 .status(MemberStatus.ACTIVE)
                 .build();
 
@@ -290,7 +290,7 @@ class MemberTest {
                 .password(new Password("password"))
                 .memberName(new MemberName("before"))
                 .phone(new Phone("01012345678"))
-                .role(MemberRole.USER) 
+                .role(MemberRole.MEMBER) 
                 .status(MemberStatus.WITHDRAWN)
                 .build();
 

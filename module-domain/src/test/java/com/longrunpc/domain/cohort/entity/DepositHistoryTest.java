@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.longrunpc.domain.attendance.entity.Attendance;
 import com.longrunpc.domain.attendance.vo.LateMinutes;
 import com.longrunpc.domain.cohort.vo.Description;
+import com.longrunpc.domain.cohort.vo.CohortName;
 import com.longrunpc.domain.cohort.vo.Deposit;
 import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.cohort.vo.Generation;
@@ -40,7 +41,8 @@ public class DepositHistoryTest {
         // given
         Cohort cohort = Cohort.builder()
             .id(1L)
-            .generation(new Generation("11기"))
+            .generation(new Generation(11))
+            .cohortName(new CohortName("11기"))
             .build();
 
         Member member = Member.builder()
@@ -49,7 +51,7 @@ public class DepositHistoryTest {
             .password(new Password("password"))
             .memberName(new MemberName("test"))
             .phone(new Phone("01012345678"))
-            .role(MemberRole.USER)
+            .role(MemberRole.MEMBER)
             .status(MemberStatus.ACTIVE)
             .build();
 

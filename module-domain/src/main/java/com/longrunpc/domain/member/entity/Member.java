@@ -65,7 +65,7 @@ public class Member extends BaseEntity {
             .password(password)
             .memberName(memberName)
             .phone(phone)
-            .role(MemberRole.USER)
+            .role(MemberRole.MEMBER)
             .status(MemberStatus.ACTIVE)
             .build();
     }
