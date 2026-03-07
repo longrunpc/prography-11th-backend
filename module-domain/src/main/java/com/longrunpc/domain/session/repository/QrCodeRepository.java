@@ -9,5 +9,7 @@ import com.longrunpc.domain.session.entity.QrCode;
 
 public interface QrCodeRepository extends JpaRepository<QrCode, Long> {
 
+    List<QrCode> findBySessionIdAndExpiresAtAfter(Long sessionId, LocalDateTime now);
+
     List<QrCode> findBySessionIdInAndExpiresAtAfter(List<Long> sessionIds, LocalDateTime now);
 }
