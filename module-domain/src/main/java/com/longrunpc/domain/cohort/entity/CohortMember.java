@@ -73,6 +73,18 @@ public class CohortMember extends BaseEntity {
             .build();
     }
 
+    public void changeCohort(Cohort cohort) {
+        this.cohort = Objects.requireNonNull(cohort);
+    }
+
+    public void changePart(Part part) {
+        this.part = Objects.requireNonNull(part);
+    }
+
+    public void changeTeam(Team team) {
+        this.team = Objects.requireNonNull(team);
+    }
+
     public void increaseDeposit(int amount) {
         if (amount < 0) {
             throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
