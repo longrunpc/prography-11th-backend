@@ -9,7 +9,7 @@ import com.longrunpc.domain.member.entity.MemberStatus;
 import lombok.Builder;
 
 @Builder
-public record MemberDetailResponse(
+public record MemberResponse(
     Long id,
     String loginId,
     String name,
@@ -19,8 +19,8 @@ public record MemberDetailResponse(
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {
-    public static MemberDetailResponse of(Member member) {
-        return MemberDetailResponse.builder()
+    public static MemberResponse of(Member member) {
+        return MemberResponse.builder()
             .id(member.getId())
             .loginId(member.getLoginId().getValue())
             .name(member.getMemberName().getValue())

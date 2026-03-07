@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.longrunpc.api.user.member.dto.request.LoginMemberRequest;
-import com.longrunpc.api.user.member.dto.response.MemberDetailResponse;
+import com.longrunpc.api.user.member.dto.response.MemberResponse;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.member.entity.Member;
@@ -22,7 +22,7 @@ public class LoginMemberUsecase {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
-    public MemberDetailResponse execute(LoginMemberRequest request) {
+    public MemberResponse execute(LoginMemberRequest request) {
         // 회원 조회
         Member member = memberRepository.findByLoginId(new LoginId(request.loginId()))
             .orElseThrow(() -> new BusinessException(MemberErrorCode.LOGIN_FAILED));
@@ -37,6 +37,6 @@ public class LoginMemberUsecase {
             throw new BusinessException(MemberErrorCode.MEMBER_WITHDRAWN);
         }
 
-        return MemberDetailResponse.of(member);
+        return MemberResponse.of(member);
     }
 }
