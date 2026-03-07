@@ -14,8 +14,6 @@ import jakarta.persistence.Embedded;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import com.longrunpc.common.error.MemberErrorCode;
-import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.common.entity.BaseEntity;
 import com.longrunpc.domain.member.vo.LoginId;
 import com.longrunpc.domain.member.vo.MemberName;
@@ -87,9 +85,6 @@ public class Member extends BaseEntity {
     }
 
     public void withdraw() {
-        if (this.status == MemberStatus.WITHDRAWN) {
-            throw new BusinessException(MemberErrorCode.MEMBER_ALREADY_WITHDRAWN);
-        }
         this.status = MemberStatus.WITHDRAWN;
     }
 }

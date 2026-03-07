@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Nested;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.member.vo.LoginId;
 import com.longrunpc.domain.member.vo.MemberName;
 import com.longrunpc.domain.member.vo.Password;
@@ -279,24 +278,6 @@ class MemberTest {
             member.withdraw();
             // then
             assertThat(member.getStatus()).isEqualTo(MemberStatus.WITHDRAWN);
-        }
-
-        @DisplayName("이미 탈퇴한 회원 탈퇴 시 예외 발생")
-        @Test
-        void should_throw_exception_when_already_withdrawn() {
-            // given
-            Member member = Member.builder()
-                .loginId(new LoginId("test@example.com"))
-                .password(new Password("password"))
-                .memberName(new MemberName("before"))
-                .phone(new Phone("01012345678"))
-                .role(MemberRole.MEMBER) 
-                .status(MemberStatus.WITHDRAWN)
-                .build();
-
-            // when & then
-            assertThatThrownBy(() -> member.withdraw())
-                .isInstanceOf(BusinessException.class);
         }
     }
 }
