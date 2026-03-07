@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.longrunpc.domain.cohort.entity.CohortMember;
 import com.longrunpc.domain.member.entity.MemberStatus;
 
-public interface CohortMemberRepository extends JpaRepository<CohortMember, Long> {
+public interface CohortMemberRepository extends JpaRepository<CohortMember, Long>, CohortMemberRepositoryCustom {
     @Query("SELECT cm FROM CohortMember cm WHERE cm.member.id = :memberId AND cm.cohort.id = :cohortId")
     Optional<CohortMember> findByMemberIdAndCohortId(Long memberId, Long cohortId);
     
