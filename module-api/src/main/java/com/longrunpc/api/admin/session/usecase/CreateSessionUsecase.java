@@ -49,7 +49,7 @@ public class CreateSessionUsecase {
         QrCode qrCode = QrCode.createQrCode(savedSession);
         qrCodeRepository.save(qrCode);
 
-        return SessionDetailResponse.of(session, new ArrayList<>(), true);
+        return SessionDetailResponse.of(savedSession, new ArrayList<>(), true);
     }
     
 }
