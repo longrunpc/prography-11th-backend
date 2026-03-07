@@ -1,4 +1,4 @@
-package com.longrunpc.api.adimin.member.dto.request;
+package com.longrunpc.api.admin.member.dto.request;
 
 public record RegisterMemberRequest(
     String loginId,

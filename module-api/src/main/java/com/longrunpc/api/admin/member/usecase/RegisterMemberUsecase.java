@@ -1,10 +1,10 @@
-package com.longrunpc.api.adimin.member.usecase;
+package com.longrunpc.api.admin.member.usecase;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.longrunpc.api.adimin.member.dto.request.RegisterMemberRequest;
+import com.longrunpc.api.admin.member.dto.request.RegisterMemberRequest;
 import com.longrunpc.common.error.CohortErrorCode;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.common.exception.BusinessException;
