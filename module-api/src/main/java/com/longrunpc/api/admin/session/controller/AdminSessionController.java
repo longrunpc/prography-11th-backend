@@ -49,12 +49,12 @@ public class AdminSessionController {
         return ResponseEntity.ok(ApiResponse.success(createSessionUsecase.execute(request)));
     }
 
-    @PutMapping("/{sessionId}")
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<SessionDetailResponse>> updateSession(@PathVariable Long sessionId, @RequestBody UpdateSessionRequest request) {
         return ResponseEntity.ok(ApiResponse.success(updateSessionUsecase.execute(request, sessionId)));
     }
 
-    @DeleteMapping("/{sessionId}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<SessionDetailResponse>> cancelSession(@PathVariable Long sessionId) {
         return ResponseEntity.ok(ApiResponse.success(cancelSessionUsecase.execute(sessionId)));
     }
