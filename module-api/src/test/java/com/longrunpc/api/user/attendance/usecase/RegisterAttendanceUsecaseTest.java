@@ -1,4 +1,4 @@
-package com.longrunpc.api.user.attendance;
+package com.longrunpc.api.user.attendance.usecase;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.any;
@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.longrunpc.api.user.attendance.usecase.RegisterAttendanceUsecase;
 import com.longrunpc.domain.attendance.repository.AttendanceRepository;
 import com.longrunpc.domain.session.repository.QrCodeRepository;
 import com.longrunpc.domain.session.repository.SessionRepository;

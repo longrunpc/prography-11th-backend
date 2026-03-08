@@ -1,4 +1,4 @@
-package com.longrunpc.api.user.attendance;
+package com.longrunpc.api.user.attendance.usecase;
 
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.longrunpc.api.user.attendance.usecase.ReadAttendancesUsecase;
 import com.longrunpc.domain.attendance.repository.AttendanceRepository;
 import com.longrunpc.domain.cohort.entity.Cohort;
 import com.longrunpc.domain.member.repository.MemberRepository;

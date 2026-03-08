@@ -1,4 +1,4 @@
-package com.longrunpc.api.admin.attendance;
+package com.longrunpc.api.admin.attendance.usecase;
 
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,7 +39,6 @@ import com.longrunpc.domain.cohort.vo.Deposit;
 import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.cohort.entity.DepositType;
 import com.longrunpc.domain.cohort.vo.Description;
-import com.longrunpc.api.admin.attendance.usecase.UpdateAttendanceUsecase;
 import com.longrunpc.common.error.AttendanceErrorCode;
 import com.longrunpc.common.error.CohortErrorCode;
 import com.longrunpc.common.exception.BusinessException;

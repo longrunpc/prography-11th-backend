@@ -1,4 +1,4 @@
-package com.longrunpc.api.admin.attendance;
+package com.longrunpc.api.admin.attendance.usecase;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Optional;
 
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import com.longrunpc.api.admin.attendance.dto.request.AdminRegisterAttendanceRequest;
 import com.longrunpc.api.admin.attendance.dto.response.AdminAttendanceResponse;
-import com.longrunpc.api.admin.attendance.usecase.AdminRegisterAttendanceUsecase;
 import com.longrunpc.common.constant.attendance.AttendanceConstants;
 import com.longrunpc.common.error.AttendanceErrorCode;
 import com.longrunpc.common.error.CohortErrorCode;
