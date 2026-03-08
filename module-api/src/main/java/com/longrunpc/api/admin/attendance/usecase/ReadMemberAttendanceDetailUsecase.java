@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.longrunpc.api.admin.attendance.dto.response.MemberAttendanceDetailResponse;
+import com.longrunpc.api.admin.attendance.dto.response.MemberAttendanceResponse;
 import com.longrunpc.common.error.CohortErrorCode;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.common.exception.BusinessException;
@@ -26,14 +26,14 @@ public class ReadMemberAttendanceDetailUsecase {
     private final MemberRepository memberRepository;
     
     @Transactional(readOnly = true)
-    public MemberAttendanceDetailResponse execute(Long memberId) {
+    public MemberAttendanceResponse execute(Long memberId) {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new BusinessException(MemberErrorCode.MEMBER_NOT_FOUND));
         CohortMember cohortMember = cohortMemberRepository.findDetailByMemberId(member.getId())
             .orElseThrow(() -> new BusinessException(CohortErrorCode.COHORT_MEMBER_NOT_FOUND));
 
         List<Attendance> attendances = attendanceRepository.findAllByMemberId(member.getId());
-        return MemberAttendanceDetailResponse.of(cohortMember, attendances);
+        return MemberAttendanceResponse.of(cohortMember, attendances);
     }
 
 }

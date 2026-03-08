@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.longrunpc.api.admin.attendance.dto.response.MemberAttendanceDetailResponse;
+import com.longrunpc.api.admin.attendance.dto.response.MemberAttendanceResponse;
 import com.longrunpc.api.admin.attendance.usecase.ReadMemberAttendanceDetailUsecase;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.common.exception.BusinessException;
@@ -108,10 +108,10 @@ public class ReadMemberAttendanceDetailUsecaseTest {
         given(attendanceRepository.findAllByMemberId(1L)).willReturn(List.of());
 
         // when
-        MemberAttendanceDetailResponse result = readMemberAttendanceDetailUsecase.execute(1L);
+        MemberAttendanceResponse result = readMemberAttendanceDetailUsecase.execute(1L);
 
         // then
-        assertThat(result).isEqualTo(MemberAttendanceDetailResponse.of(cohortMember, attendances));
+        assertThat(result).isEqualTo(MemberAttendanceResponse.of(cohortMember, attendances));
     }
 
     @DisplayName("회원 출결 상세 조회 실패 - 회원 존재하지 않음")

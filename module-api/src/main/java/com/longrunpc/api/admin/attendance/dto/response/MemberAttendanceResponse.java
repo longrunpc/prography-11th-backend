@@ -9,7 +9,7 @@ import com.longrunpc.domain.cohort.entity.CohortMember;
 import lombok.Builder;
 
 @Builder
-public record MemberAttendanceDetailResponse(
+public record MemberAttendanceResponse(
     Long memberId,
     String memberName,
     int generation,
@@ -19,8 +19,8 @@ public record MemberAttendanceDetailResponse(
     int excusedCount,
     List<AdminAttendanceResponse> attendances
 ) {
-    public static MemberAttendanceDetailResponse of(CohortMember cohortMember, List<Attendance> attendances) {
-        return MemberAttendanceDetailResponse.builder()
+    public static MemberAttendanceResponse of(CohortMember cohortMember, List<Attendance> attendances) {
+        return MemberAttendanceResponse.builder()
             .memberId(cohortMember.getMember().getId())
             .memberName(cohortMember.getMember().getMemberName().getValue())
             .generation(cohortMember.getCohort().getGeneration().getValue())
