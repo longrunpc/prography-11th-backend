@@ -40,7 +40,7 @@ public class Attendance extends BaseEntity {
     private Session session;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "qr_code_id", nullable = false)
+    @JoinColumn(name = "qr_code_id")
     private QrCode qrCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,7 +60,7 @@ public class Attendance extends BaseEntity {
     @Embedded
     private Reason reason;
 
-    @Column(name = "checked_in_at", nullable = false)
+    @Column(name = "checked_in_at")
     private LocalDateTime checkedInAt;
     
     @Builder

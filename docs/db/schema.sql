@@ -76,7 +76,7 @@ CREATE TABLE QR_CODE (
 CREATE TABLE ATTENDANCE (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     session_id BIGINT NOT NULL,
-    qr_code_id BIGINT NOT NULL,
+    qr_code_id BIGINT,
     member_id BIGINT NOT NULL,
     attendance_status VARCHAR(20) NOT NULL CHECK (status IN ('PRESENT', 'LATE', 'ABSENT', 'EXCUSED')),
     late_minutes INT DEFAULT 0,
