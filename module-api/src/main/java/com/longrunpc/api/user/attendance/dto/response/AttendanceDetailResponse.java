@@ -26,10 +26,12 @@ public record AttendanceDetailResponse(
             .sessionId(attendance.getSession().getId())
             .memberId(attendance.getMember().getId())
             .status(attendance.getAttendanceStatus())
-            .lateMinutes(attendance.getLateMinutes().getValue())
+            .lateMinutes((attendance.getLateMinutes() != null) ? attendance.getLateMinutes().getValue() : null)
             .penaltyAmount(attendance.getPenaltyAmount().getValue())
             .reason(attendance.getReason().getValue())
             .checkedInAt(attendance.getCheckedInAt())
+            .createdAt(attendance.getCreatedAt())
+            .updatedAt(attendance.getUpdatedAt())
             .build();
     }
 }
