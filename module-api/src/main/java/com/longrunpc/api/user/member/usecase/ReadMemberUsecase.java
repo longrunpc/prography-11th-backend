@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class GetMemberUsecase {
+public class ReadMemberUsecase {
 
     private final MemberRepository memberRepository;
 
