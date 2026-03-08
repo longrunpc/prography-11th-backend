@@ -60,7 +60,7 @@ public class RegisterAttendanceUsecase {
         // 일정 조회
         Session session = sessionRepository.findById(qrCode.getSession().getId())
             .orElseThrow(() -> new BusinessException(SessionErrorCode.SESSION_NOT_FOUND));
-        if (session.isInProgress()) {
+        if (!session.isInProgress()) {
             throw new BusinessException(SessionErrorCode.SESSION_NOT_IN_PROGRESS);
         }
 
@@ -89,11 +89,14 @@ public class RegisterAttendanceUsecase {
         LocalDateTime now = LocalDateTime.now();
         LateMinutes lateMinutes = LateMinutes.calculateLateMinutes(now, session.getSessionDate(), session.getSessionTime());
         AttendanceStatus attendanceStatus = lateMinutes != null ? AttendanceStatus.LATE : AttendanceStatus.PRESENT;
-
+        
         // 패널티 계산
-        PenaltyAmount penaltyAmount = Attendance.calculatePenaltyAmount(attendanceStatus, lateMinutes);
+        PenaltyAmount penaltyAmount = new PenaltyAmount(0);
+        if (attendanceStatus == AttendanceStatus.LATE) {
+            penaltyAmount = Attendance.calculatePenaltyAmount(attendanceStatus, lateMinutes);
+        }
 
-        Attendance attendance = Attendance.createAttendance(session, qrCode, member, lateMinutes);
+        Attendance attendance = Attendance.createAttendance(session, qrCode, member, attendanceStatus, lateMinutes, penaltyAmount);
         Attendance savedAttendance = attendanceRepository.save(attendance);
 
         // 패널티가 있을 경우

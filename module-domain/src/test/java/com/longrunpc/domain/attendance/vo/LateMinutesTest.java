@@ -51,7 +51,7 @@ public class LateMinutesTest {
         LateMinutes lateMinutes = LateMinutes.calculateLateMinutes(checkedInAt, sessionDate, sessionTime);
 
         // then
-        assertThat(lateMinutes).isEqualTo(new LateMinutes(0));
+        assertThat(lateMinutes).isNull();
     }
 
     @DisplayName("출석 시각이 세션 시각보다 늦으면 지각분 반환")

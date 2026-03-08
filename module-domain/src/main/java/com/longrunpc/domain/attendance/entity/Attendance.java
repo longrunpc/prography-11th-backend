@@ -76,17 +76,15 @@ public class Attendance extends BaseEntity {
         this.checkedInAt = Objects.requireNonNull(checkedInAt);
     }
 
-    public static Attendance createAttendance(Session session, QrCode qrCode, Member member, LateMinutes lateMinutes) {
+    public static Attendance createAttendance(Session session, QrCode qrCode, Member member, AttendanceStatus attendanceStatus, LateMinutes lateMinutes, PenaltyAmount penaltyAmount) {
         LocalDateTime checkedInAt = LocalDateTime.now();
-        AttendanceStatus attendanceStatus = lateMinutes.getValue() > 0 ? AttendanceStatus.LATE : AttendanceStatus.PRESENT;
-        PenaltyAmount calculatedPenaltyAmount = calculatePenaltyAmount(attendanceStatus, lateMinutes);
         return Attendance.builder()
             .session(session)
             .qrCode(qrCode)
             .member(member)
             .attendanceStatus(attendanceStatus)
             .lateMinutes(lateMinutes)
-            .penaltyAmount(calculatedPenaltyAmount)
+            .penaltyAmount(penaltyAmount)
             .reason(null)
             .checkedInAt(checkedInAt)
             .build();

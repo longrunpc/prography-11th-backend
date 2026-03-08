@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import com.longrunpc.domain.attendance.entity.Attendance;
+import com.longrunpc.domain.attendance.entity.AttendanceStatus;
 import com.longrunpc.domain.attendance.vo.LateMinutes;
+import com.longrunpc.domain.attendance.vo.PenaltyAmount;
 import com.longrunpc.domain.cohort.vo.Description;
 import com.longrunpc.domain.cohort.vo.CohortName;
 import com.longrunpc.domain.cohort.vo.Generation;
@@ -76,7 +78,7 @@ public class DepositHistoryTest {
             .build();
 
         QrCode qrCode = QrCode.createQrCode(session);
-        attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(5));
+        attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.LATE, new LateMinutes(5), new PenaltyAmount(5_000));
     }
 
     @DisplayName("builder 테스트")

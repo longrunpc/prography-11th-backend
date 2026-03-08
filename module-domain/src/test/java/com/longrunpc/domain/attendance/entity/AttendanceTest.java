@@ -82,7 +82,7 @@ public class AttendanceTest {
             LateMinutes lateMinutes = new LateMinutes(0);
 
             // when
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, lateMinutes);
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, lateMinutes, new PenaltyAmount(0));
 
             // then
             assertThat(attendance.getSession()).isEqualTo(session);
@@ -92,28 +92,6 @@ public class AttendanceTest {
             assertThat(attendance.getLateMinutes()).isEqualTo(new LateMinutes(0));
             assertThat(attendance.getPenaltyAmount()).isEqualTo(new PenaltyAmount(0));
             assertThat(attendance.getCheckedInAt()).isAfter(LocalDateTime.now().minusSeconds(1));
-        }
-
-        @DisplayName("지각이 있을 때 출석 상태 LATE 로 생성")
-        @Test
-        void should_create_late_attendance_when_late_minutes_is_positive() {
-            // given
-            LateMinutes lateMinutes = new LateMinutes(5);
-
-            // when
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, lateMinutes);
-
-            // then
-            assertThat(attendance.getAttendanceStatus()).isEqualTo(AttendanceStatus.LATE);
-            assertThat(attendance.getPenaltyAmount()).isEqualTo(new PenaltyAmount(5_000));
-        }
-
-        @DisplayName("지각분 필드 null 시 예외 발생")
-        @Test
-        void should_throw_exception_when_late_minutes_is_null() {
-            // when & then
-            assertThatThrownBy(() -> Attendance.createAttendance(session, qrCode, member, null))
-                .isInstanceOf(NullPointerException.class);
         }
     }
 
@@ -170,7 +148,7 @@ public class AttendanceTest {
         @Test
         void should_change_attendance_status_when_valid_input() {
             // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, new LateMinutes(0), new PenaltyAmount(0));
 
             // when
             attendance.changeAttendanceStatus(AttendanceStatus.ABSENT);
@@ -183,7 +161,7 @@ public class AttendanceTest {
         @Test
         void should_throw_exception_when_attendance_status_is_null() {
             // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, new LateMinutes(0), new PenaltyAmount(0));
 
             // when & then
             assertThatThrownBy(() -> attendance.changeAttendanceStatus(null))
@@ -199,24 +177,13 @@ public class AttendanceTest {
         @Test
         void should_change_late_minutes_when_valid_input() {
             // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, new LateMinutes(0), new PenaltyAmount(0));
 
             // when
             attendance.changeLateMinutes(new LateMinutes(10));
 
             // then
             assertThat(attendance.getLateMinutes()).isEqualTo(new LateMinutes(10));
-        }
-
-        @DisplayName("lateMinutes 필드 null 시 예외 발생")
-        @Test
-        void should_throw_exception_when_late_minutes_is_null() {
-            // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
-
-            // when & then
-            assertThatThrownBy(() -> attendance.changeLateMinutes(null))
-                .isInstanceOf(NullPointerException.class);
         }
     }
 
@@ -228,7 +195,7 @@ public class AttendanceTest {
         @Test
         void should_change_penalty_amount_when_valid_input() {
             // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, new LateMinutes(0), new PenaltyAmount(0));
             PenaltyAmount penaltyAmount = new PenaltyAmount(3_000);
 
             // when
@@ -242,7 +209,7 @@ public class AttendanceTest {
         @Test
         void should_throw_exception_when_penalty_amount_is_null() {
             // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, new LateMinutes(0), new PenaltyAmount(0));
 
             // when & then
             assertThatThrownBy(() -> attendance.changePenaltyAmount(null))
@@ -258,7 +225,7 @@ public class AttendanceTest {
         @Test
         void should_change_reason_when_valid_input() {
             // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, new LateMinutes(0), new PenaltyAmount(0));
             Reason reason = new Reason("지각 사유");
 
             // when
@@ -272,7 +239,7 @@ public class AttendanceTest {
         @Test
         void should_set_reason_to_null_when_null_input() {
             // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, new LateMinutes(0), new PenaltyAmount(0));
             attendance.changeReason(new Reason("사유"));
 
             // when
@@ -291,7 +258,7 @@ public class AttendanceTest {
         @Test
         void should_throw_exception_when_negative_late_minutes_input() {
             // given
-            Attendance attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(0));
+            Attendance attendance = Attendance.createAttendance(session, qrCode, member, AttendanceStatus.PRESENT, new LateMinutes(0), new PenaltyAmount(0));
 
             // when & then
             assertThatThrownBy(() -> attendance.changeLateMinutes(new LateMinutes(-1)))

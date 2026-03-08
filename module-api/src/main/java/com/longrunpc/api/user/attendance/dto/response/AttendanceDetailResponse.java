@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import com.longrunpc.domain.attendance.entity.Attendance;
 import com.longrunpc.domain.attendance.entity.AttendanceStatus;
-import com.longrunpc.domain.member.entity.Member;
 
 import lombok.Builder;
 
