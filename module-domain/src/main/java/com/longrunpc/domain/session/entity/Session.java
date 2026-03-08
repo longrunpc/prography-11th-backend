@@ -7,6 +7,8 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,6 +52,7 @@ public class Session extends BaseEntity {
     private SessionLocation sessionLocation;
 
     @Column(name = "session_status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private SessionStatus sessionStatus;
 
     @Builder

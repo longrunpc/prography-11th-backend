@@ -62,10 +62,7 @@ class AdminMemberControllerIntegrationTest {
     @Test
     void should_register_member_when_valid_request() throws Exception {
         // given
-        Cohort cohort = Objects.requireNonNull(cohortRepository.save(Cohort.builder()
-            .generation(new Generation(11))
-            .cohortName(new CohortName("11기"))
-            .build()));
+        Cohort cohort = createCohort(11, "11기");
 
         RegisterMemberRequest request = new RegisterMemberRequest(
             "signup-user@example.com",
@@ -306,6 +303,10 @@ class AdminMemberControllerIntegrationTest {
     }
 
     private Cohort createCohort(int generation, String cohortName) {
+        if (generation == 11) {
+            return cohortRepository.findByGeneration(new Generation(11))
+                .orElseThrow(() -> new IllegalStateException("cohort 11 should exist"));
+        }
         return Objects.requireNonNull(cohortRepository.save(Cohort.builder()
             .generation(new Generation(generation))
             .cohortName(new CohortName(cohortName))

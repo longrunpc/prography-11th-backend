@@ -120,10 +120,11 @@ class MemberControllerIntegrationTest {
         Cohort cohort = findCurrentCohort();
         Member member = createMember("summary@example.com", "요약회원", "01055554444");
         createCohortMember(member, cohort);
-        Session session = createSession(cohort, "요약세션");
+        Session presentSession = createSession(cohort, "요약세션-출석");
+        Session lateSession = createSession(cohort, "요약세션-지각");
 
-        createAttendance(session, member, AttendanceStatus.PRESENT, 0, 0);
-        createAttendance(session, member, AttendanceStatus.LATE, 5, 5000);
+        createAttendance(presentSession, member, AttendanceStatus.PRESENT, 0, 0);
+        createAttendance(lateSession, member, AttendanceStatus.LATE, 5, 5000);
 
         // when & then
         mockMvc.perform(get("/members/{memberId}/attendance-summary", member.getId()))

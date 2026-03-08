@@ -52,7 +52,7 @@ CREATE TABLE COHORT_MEMBER (
     FOREIGN KEY (cohort_id) REFERENCES COHORT(id),
     FOREIGN KEY (part_id) REFERENCES PART(id),
     FOREIGN KEY (team_id) REFERENCES TEAM(id),
-    CONSTRAINT UK_MEMBER_COHORT UNIQUE (member_id, cohort_id) -- 한 기수에 중복 가입 방지
+    CONSTRAINT UK_MEMBER_COHORT UNIQUE (member_id, cohort_id)
 );
 
 CREATE TABLE SESSION (
