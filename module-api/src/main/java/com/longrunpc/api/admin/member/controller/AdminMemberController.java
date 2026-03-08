@@ -51,18 +51,18 @@ public class AdminMemberController {
         return ResponseEntity.ok(ApiResponse.success(readMemberDashboardUsecase.execute(request)));
     }
 
-    @GetMapping("/{memberId}")
-    public ResponseEntity<ApiResponse<MemberDetailResponse>> readMemberDetail(@PathVariable Long memberId) {
-        return ResponseEntity.ok(ApiResponse.success(readMemberDetailUsecase.execute(memberId)));
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<MemberDetailResponse>> readMemberDetail(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.success(readMemberDetailUsecase.execute(id)));
     }
 
-    @PutMapping("/{memberId}")
-    public ResponseEntity<ApiResponse<MemberDetailResponse>> updateMember(@PathVariable Long memberId, @RequestBody UpdateMemberRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(updateMemberUsecase.execute(request, memberId)));
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<MemberDetailResponse>> updateMember(@PathVariable Long id, @RequestBody UpdateMemberRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(updateMemberUsecase.execute(request, id)));
     }
 
-    @DeleteMapping("/{memberId}")
-    public ResponseEntity<ApiResponse<WithdrawMemberResponse>> withdrawMember(@PathVariable Long memberId) {
-        return ResponseEntity.ok(ApiResponse.success(withdrawMemberUsecase.execute(memberId)));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<WithdrawMemberResponse>> withdrawMember(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.success(withdrawMemberUsecase.execute(id)));
     }
 }
