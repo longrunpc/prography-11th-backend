@@ -85,7 +85,7 @@ public class CreateQrCodeUsecaseTest {
         given(qrCodeRepository.save(any(QrCode.class))).willReturn(qrCode);
 
         // when
-        QrCodeResponse response = createQrCodeUsecase.createQrCode(session.getId());
+        QrCodeResponse response = createQrCodeUsecase.excute(session.getId());
 
         // then
         assertThat(response.id()).isEqualTo(qrCode.getId());
@@ -102,7 +102,7 @@ public class CreateQrCodeUsecaseTest {
         given(sessionRepository.findById(session.getId())).willReturn(Optional.empty());
 
         // when & then
-        assertThatThrownBy(() -> createQrCodeUsecase.createQrCode(session.getId()))
+        assertThatThrownBy(() -> createQrCodeUsecase.excute(session.getId()))
             .isInstanceOf(BusinessException.class)
             .hasMessage(SessionErrorCode.SESSION_NOT_FOUND.getMessage());
     }
@@ -118,7 +118,7 @@ public class CreateQrCodeUsecaseTest {
         )).willReturn(List.of(qrCode));
 
         // when & then
-        assertThatThrownBy(() -> createQrCodeUsecase.createQrCode(session.getId()))
+        assertThatThrownBy(() -> createQrCodeUsecase.excute(session.getId()))
             .isInstanceOf(BusinessException.class)
             .hasMessage(SessionErrorCode.QR_ALREADY_ACTIVE.getMessage());
     }
