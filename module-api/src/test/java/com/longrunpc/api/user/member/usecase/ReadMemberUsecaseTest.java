@@ -29,9 +29,9 @@ import java.time.LocalDateTime;
 
 @DisplayName("GetMemberUsecase 테스트")
 @ExtendWith(MockitoExtension.class)
-public class GetMemberUsecaseTest {
+public class ReadMemberUsecaseTest {
     @InjectMocks
-    private GetMemberUsecase getMemberUsecase;
+    private ReadMemberUsecase getMemberUsecase;
     @Mock
     private MemberRepository memberRepository;
 

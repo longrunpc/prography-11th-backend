@@ -2,7 +2,6 @@ package com.longrunpc.api.admin.member.usecase;
 
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Collections;
 
@@ -20,9 +19,9 @@ import com.longrunpc.domain.cohort.repository.CohortMemberRepository;
 
 @DisplayName("GetMemberDashboardUsecase 테스트")
 @ExtendWith(MockitoExtension.class)
-public class GetMemberDashboardUsecaseTest {
+public class ReadMemberDashboardUsecaseTest {
     @InjectMocks
-    private GetMemberDashboardUsecase getMemberDashboardUsecase;
+    private ReadMemberDashboardUsecase getMemberDashboardUsecase;
     
     @Mock
     private CohortMemberRepository cohortMemberRepository;

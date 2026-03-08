@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class GetMemberDashboardUsecase {
+public class ReadMemberDashboardUsecase {
 
     private final CohortMemberRepository cohortMemberRepository;
     

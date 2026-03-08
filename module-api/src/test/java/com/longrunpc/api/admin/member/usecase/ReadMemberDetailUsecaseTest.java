@@ -38,10 +38,10 @@ import com.longrunpc.domain.member.entity.MemberStatus;
 
 @DisplayName("GetMemberDetailUsecase 테스트")
 @ExtendWith(MockitoExtension.class)
-public class GetMemberDetailUsecaseTest {
+public class ReadMemberDetailUsecaseTest {
     
     @InjectMocks
-    private GetMemberDetailUsecase getMemberDetailUsecase;
+    private ReadMemberDetailUsecase getMemberDetailUsecase;
     @Mock
     private CohortMemberRepository cohortMemberRepository;
 

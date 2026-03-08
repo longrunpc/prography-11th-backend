@@ -23,7 +23,7 @@ public class CreateQrCodeUsecase {
     private final SessionRepository sessionRepository;
 
     @Transactional
-    public QrCodeResponse createQrCode(Long sessionId) {
+    public QrCodeResponse excute(Long sessionId) {
         Session session = sessionRepository.findById(sessionId)
             .orElseThrow(() -> new BusinessException(SessionErrorCode.SESSION_NOT_FOUND));
         LocalDateTime now = LocalDateTime.now();
