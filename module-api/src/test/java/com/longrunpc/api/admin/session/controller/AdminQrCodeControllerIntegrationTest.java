@@ -1,6 +1,6 @@
 package com.longrunpc.api.admin.session.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,7 +54,7 @@ class AdminQrCodeControllerIntegrationTest {
         QrCode qrCode = Objects.requireNonNull(qrCodeRepository.save(QrCode.createQrCode(session)));
 
         // when & then
-        mockMvc.perform(post("/admin/qrcodes/{qrCodeId}", qrCode.getId()))
+        mockMvc.perform(put("/admin/qrcodes/{qrCodeId}", qrCode.getId()))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.data.sessionId").value(session.getId()))
@@ -66,7 +66,7 @@ class AdminQrCodeControllerIntegrationTest {
     @Test
     void should_fail_reissue_qrcode_when_not_found() throws Exception {
         // when & then
-        mockMvc.perform(post("/admin/qrcodes/{qrCodeId}", 999999L))
+        mockMvc.perform(put("/admin/qrcodes/{qrCodeId}", 999999L))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.success").value(false))
             .andExpect(jsonPath("$.data").doesNotExist())
@@ -78,7 +78,7 @@ class AdminQrCodeControllerIntegrationTest {
     @Test
     void should_fail_reissue_qrcode_when_id_is_invalid_type() throws Exception {
         // when & then
-        mockMvc.perform(post("/admin/qrcodes/{qrCodeId}", "invalid-id"))
+        mockMvc.perform(put("/admin/qrcodes/{qrCodeId}", "invalid-id"))
             .andExpect(status().isInternalServerError())
             .andExpect(jsonPath("$.success").value(false))
             .andExpect(jsonPath("$.data").doesNotExist())

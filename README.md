@@ -62,6 +62,9 @@ prography-11th-backend
 
 ![attendance erd](./docs/attendance_erd.png)
 
+## System Design Architecture
+[System Design Architecture](./docs/SYSTEM_DESIGN_ARCHITECTURE.md.md)
+
 ## 회고
 
 [회고 문서](./docs/RETROSPECTIVE.md)
@@ -75,4 +78,5 @@ prography-11th-backend
 
 ## API 명세
 
+swagger : http://localhost:8080/api/v1/swagger-ui/index.html
 [API 명세](https://github.com/prography/11th-assignment-be-api-spec/tree/main?tab=readme-ov-file)
