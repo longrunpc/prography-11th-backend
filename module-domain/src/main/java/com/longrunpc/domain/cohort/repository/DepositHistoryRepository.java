@@ -8,4 +8,5 @@ import com.longrunpc.domain.cohort.entity.DepositHistory;
 
 public interface DepositHistoryRepository extends JpaRepository<DepositHistory, Long> {
     List<DepositHistory> findByCohortMemberId(Long cohortMemberId);
+    List<DepositHistory> findByCohortMemberIdOrderByCreatedAtDesc(Long cohortMemberId);
 }

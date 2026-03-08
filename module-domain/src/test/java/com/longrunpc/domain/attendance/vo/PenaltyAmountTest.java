@@ -24,17 +24,6 @@ public class PenaltyAmountTest {
         assertThat(penaltyAmount.getValue()).isEqualTo(value);
     }
 
-    @DisplayName("음수 값으로 생성 시 예외 발생")
-    @Test
-    void should_throw_exception_when_negative_input() {
-        // given
-        int value = -1;
-
-        // when & then
-        assertThatThrownBy(() -> new PenaltyAmount(value))
-            .isInstanceOf(BusinessException.class);
-    }
-
     @DisplayName("벌금 차액 계산 시 신규 벌금 - 기존 벌금 반환")
     @Test
     void should_return_penalty_amount_diff() {

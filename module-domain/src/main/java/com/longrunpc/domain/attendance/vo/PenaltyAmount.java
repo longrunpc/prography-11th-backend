@@ -20,13 +20,7 @@ public class PenaltyAmount {
     private int value;
 
     public PenaltyAmount(int value) {
-        validate(value);
         this.value = value;
-    }
-    private void validate(int value) {
-        if (value < 0) {
-            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
-        }
     }
 
     public static int penaltyAmountDiff(PenaltyAmount oldPenaltyAmount, PenaltyAmount newPenaltyAmount) {

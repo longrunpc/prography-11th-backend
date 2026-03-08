@@ -199,7 +199,7 @@ public class UpdateAttendanceUsecaseTest {
         UpdateAttendanceRequest request = new UpdateAttendanceRequest(AttendanceStatus.ABSENT, null, "test");
         given(attendanceRepository.findById(1L)).willReturn(Optional.of(attendance));
         given(cohortMemberRepository.findByCohortIdAndMemberId(1L, 1L)).willReturn(Optional.of(cohortMember));
-        cohortMember.decreaseDeposit(100000);
+        cohortMember.changeDeposit(-100000);
 
         // when & then
         assertThatThrownBy(() -> updateAttendanceUsecase.execute(request, 1L))
