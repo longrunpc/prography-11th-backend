@@ -102,7 +102,7 @@ public class RegisterAttendanceUsecase {
         // 패널티가 있을 경우
         if (penaltyAmount.getValue() > 0) {
             // 패널티 납부 처리
-            cohortMember.decreaseDeposit(penaltyAmount.getValue());
+            cohortMember.changeDeposit(-1 * penaltyAmount.getValue());
 
             DepositHistory depositHistory = DepositHistory.penaltyDeposit(cohortMember, savedAttendance, penaltyAmount);
             depositHistoryRepository.save(depositHistory);

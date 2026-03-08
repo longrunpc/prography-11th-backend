@@ -85,21 +85,8 @@ public class CohortMember extends BaseEntity {
         this.team = Objects.requireNonNull(team);
     }
 
-    public void increaseDeposit(int amount) {
-        if (amount < 0) {
-            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
-        }
+    public void changeDeposit(int amount) {
         this.deposit = new Deposit(this.deposit.getValue() + amount);
-    }
-
-    public void decreaseDeposit(int amount) {
-        if (amount < 0) {
-            throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
-        }
-        if (this.deposit.getValue() < amount) {
-            throw new BusinessException(CohortErrorCode.DEPOSIT_INSUFFICIENT);
-        }
-        this.deposit = new Deposit(this.deposit.getValue() - amount);
     }
 
     public void increaseExcusedCount() {

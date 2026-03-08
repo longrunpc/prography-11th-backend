@@ -103,62 +103,38 @@ public class CohortMemeber {
         }
     }
 
-    @DisplayName("increaseDeposit 메서드 테스트")
+    @DisplayName("changeDeposit 메서드 테스트")
     @Nested
-    class IncreaseDepositTest {
+    class ChangeDepositTest {
         @DisplayName("deposit 증가 시 정상 작동")
         @Test
         void should_increase_deposit_when_valid_input() {
             // given
             CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
             // when
-            cohortMember.increaseDeposit(100_000);
+            cohortMember.changeDeposit(100_000);
             // then
             assertThat(cohortMember.getDeposit()).isEqualTo(new Deposit(CohortConstants.INITIAL_DEPOSIT + 100_000));
         }
 
-        @DisplayName("음수 입력 시 예외 발생")
-        @Test
-        void should_throw_exception_when_negative_input() {
-            // given
-            CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
-            // when & then
-            assertThatThrownBy(() -> cohortMember.increaseDeposit(-1))
-                .isInstanceOf(BusinessException.class);
-        }
-    }
-
-    @DisplayName("decreaseDeposit 메서드 테스트")
-    @Nested
-    class DecreaseDepositTest {
         @DisplayName("deposit 감소 시 정상 작동")
         @Test
         void should_decrease_deposit_when_valid_input() {
             // given
             CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
             // when
-            cohortMember.decreaseDeposit(100_000);
+            cohortMember.changeDeposit(-100_000);
             // then
-            assertThat(cohortMember.getDeposit()).isEqualTo(new Deposit(0));
+            assertThat(cohortMember.getDeposit()).isEqualTo(new Deposit(CohortConstants.INITIAL_DEPOSIT - 100_000));
         }
 
-        @DisplayName("음수 입력 시 예외 발생")
+        @DisplayName("deposit 0 이하 시 예외 발생")
         @Test
-        void should_throw_exception_when_negative_input() {
+        void should_throw_exception_when_zero_input() {
             // given
             CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
             // when & then
-            assertThatThrownBy(() -> cohortMember.decreaseDeposit(-1))
-                .isInstanceOf(BusinessException.class);
-        }
-
-        @DisplayName("deposit 잔액 부족 시 예외 발생")
-        @Test
-        void should_throw_exception_when_deposit_is_not_enough() {
-            // given
-            CohortMember cohortMember = CohortMember.createCohortMember(member, cohort, part, team);
-            // when & then
-            assertThatThrownBy(() -> cohortMember.decreaseDeposit(CohortConstants.INITIAL_DEPOSIT + 1))
+            assertThatThrownBy(() -> cohortMember.changeDeposit(-1 * CohortConstants.INITIAL_DEPOSIT - 1))
                 .isInstanceOf(BusinessException.class);
         }
     }

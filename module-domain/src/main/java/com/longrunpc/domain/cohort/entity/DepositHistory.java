@@ -5,6 +5,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -21,8 +23,12 @@ import com.longrunpc.domain.attendance.vo.PenaltyAmount;
 import com.longrunpc.domain.cohort.vo.Description;
 import com.longrunpc.domain.common.entity.BaseEntity;
 
+import lombok.AccessLevel;
+
 @Entity
 @Table(name = "deposit_history")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DepositHistory extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -74,8 +80,8 @@ public class DepositHistory extends BaseEntity {
             .attendance(attendance)
             .depositType(DepositType.PENALTY)
             .amount(penaltyAmount.getValue())
-            .balanceAfter(cohortMember.getDeposit().getValue() - penaltyAmount.getValue())
-            .description(new Description(String.format(AttendanceConstants.REGISTER_PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), penaltyAmount.getValue())))
+            .balanceAfter(cohortMember.getDeposit().getValue() + penaltyAmount.getValue())
+            .description(new Description(String.format(AttendanceConstants.REGISTER_PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), -1 *penaltyAmount.getValue())))
             .build();
     }
 
@@ -86,7 +92,7 @@ public class DepositHistory extends BaseEntity {
             .depositType(DepositType.PENALTY)
             .amount(diff)
             .balanceAfter(cohortMember.getDeposit().getValue() + diff)
-            .description(new Description(String.format(AttendanceConstants.UPDATE_PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), diff)))
+            .description(new Description(String.format(AttendanceConstants.UPDATE_PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), -1 *diff)))
             .build();
     }
 

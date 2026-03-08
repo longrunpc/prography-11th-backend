@@ -1,4 +1,4 @@
-package com.longrunpc.api.admin.attendance;
+package com.longrunpc.api.admin.attendance.usecase;
 
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,9 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.longrunpc.api.admin.attendance.dto.response.MemberAttendanceSummaryResponse;
-import com.longrunpc.api.admin.attendance.usecase.ReadAttendanceSummaryUsecase;
-import com.longrunpc.common.error.CohortErrorCode;
+import com.longrunpc.api.admin.attendance.dto.response.AdminMemberAttendanceSummaryResponse;
 import com.longrunpc.common.error.SessionErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.attendance.repository.AttendanceRepository;
@@ -182,7 +180,7 @@ public class ReadAttendanceSummaryUsecaseTest {
         given(attendanceRepository.findAllByMemberIdIn(List.of(1L, 2L))).willReturn(List.of(attendance1, attendance2));
 
         // when
-        List<MemberAttendanceSummaryResponse> result = readAttendanceSummaryUsecase.execute(1L);
+        List<AdminMemberAttendanceSummaryResponse> result = readAttendanceSummaryUsecase.execute(1L);
 
         // then
         assertThat(result.size()).isEqualTo(2);

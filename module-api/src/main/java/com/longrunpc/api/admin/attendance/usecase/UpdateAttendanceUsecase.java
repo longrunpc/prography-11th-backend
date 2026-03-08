@@ -67,14 +67,14 @@ public class UpdateAttendanceUsecase {
         attendance.changePenaltyAmount(new PenaltyAmount(newPenaltyAmount));
 
         // 패널티 차액 계산
-        int diff = newPenaltyAmount - oldPenaltyAmount;
+        int diff = oldPenaltyAmount - newPenaltyAmount;
         if (diff > 0) {
-            cohortMember.decreaseDeposit(diff);
+            cohortMember.changeDeposit(diff);
             DepositHistory depositHistory = DepositHistory.penaltyDepositDiffAmount(cohortMember, attendance, diff);
             depositHistoryRepository.save(depositHistory);
         }
         if (diff < 0) {
-            cohortMember.increaseDeposit(diff * -1);
+            cohortMember.changeDeposit(diff);
             DepositHistory depositHistory = DepositHistory.refundDepositDiffAmount(cohortMember, attendance, diff * -1);
             depositHistoryRepository.save(depositHistory);
         }
@@ -83,7 +83,7 @@ public class UpdateAttendanceUsecase {
             attendance.changeReason(new Reason(request.reason()));
         }
         attendance.changeCheckedInToNull();
-        
+
         return AdminAttendanceResponse.of(attendance);
     }
 }

@@ -1,4 +1,4 @@
-package com.longrunpc.api.admin.attendance;
+package com.longrunpc.api.admin.attendance.usecase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.longrunpc.api.admin.attendance.dto.response.SessionAttendanceResponse;
-import com.longrunpc.api.admin.attendance.usecase.ReadSessionAttendanceUsecase;
 import com.longrunpc.common.error.SessionErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.attendance.entity.Attendance;
