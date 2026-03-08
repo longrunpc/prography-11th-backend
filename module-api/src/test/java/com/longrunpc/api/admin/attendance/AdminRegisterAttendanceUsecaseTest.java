@@ -120,7 +120,7 @@ public class AdminRegisterAttendanceUsecaseTest {
             .lateMinutes(new LateMinutes(10))
             .penaltyAmount(new PenaltyAmount(10 * AttendanceConstants.LATE_MINUTES_PENALTY_AMOUNT))
             .reason(new Reason("test"))
-            .checkedInAt(LocalDateTime.now())
+            .checkedInAt(null)
             .build();
     }
 

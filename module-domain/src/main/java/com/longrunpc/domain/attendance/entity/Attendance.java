@@ -108,10 +108,14 @@ public class Attendance extends BaseEntity {
     }
 
     public void changeLateMinutes(LateMinutes lateMinutes) {
+        if (lateMinutes == null) {
+            this.lateMinutes = null;
+            return;
+        }
         if(lateMinutes.getValue() < 0) {
             throw new BusinessException(GlobalErrorCode.INVALID_INPUT);
         }
-        this.lateMinutes = Objects.requireNonNull(lateMinutes);
+        this.lateMinutes = lateMinutes;
     }
 
     public void changePenaltyAmount(PenaltyAmount penaltyAmount) {
@@ -120,5 +124,9 @@ public class Attendance extends BaseEntity {
 
     public void changeReason(Reason reason) {
         this.reason = reason;
+    }
+
+    public void changeCheckedInToNull() {
+        this.checkedInAt = null;
     }
 }

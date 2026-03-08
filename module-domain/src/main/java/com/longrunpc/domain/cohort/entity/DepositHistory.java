@@ -75,7 +75,29 @@ public class DepositHistory extends BaseEntity {
             .depositType(DepositType.PENALTY)
             .amount(penaltyAmount.getValue())
             .balanceAfter(cohortMember.getDeposit().getValue() - penaltyAmount.getValue())
-            .description(new Description(String.format(AttendanceConstants.PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), penaltyAmount.getValue())))
+            .description(new Description(String.format(AttendanceConstants.REGISTER_PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), penaltyAmount.getValue())))
+            .build();
+    }
+
+    public static DepositHistory penaltyDepositDiffAmount(CohortMember cohortMember, Attendance attendance, int diff) {
+        return DepositHistory.builder()
+            .cohortMember(cohortMember)
+            .attendance(attendance)
+            .depositType(DepositType.PENALTY)
+            .amount(diff)
+            .balanceAfter(cohortMember.getDeposit().getValue() + diff)
+            .description(new Description(String.format(AttendanceConstants.UPDATE_PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), diff)))
+            .build();
+    }
+
+    public static DepositHistory refundDepositDiffAmount(CohortMember cohortMember, Attendance attendance, int diff) {
+        return DepositHistory.builder()
+            .cohortMember(cohortMember)
+            .attendance(attendance)
+            .depositType(DepositType.REFUND)
+            .amount(diff)
+            .balanceAfter(cohortMember.getDeposit().getValue() + diff)
+            .description(new Description(String.format(AttendanceConstants.UPDATE_PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), diff)))
             .build();
     }
 }

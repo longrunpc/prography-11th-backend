@@ -64,6 +64,7 @@ public class AdminRegisterAttendanceUsecase {
         PenaltyAmount penaltyAmount = Attendance.calculatePenaltyAmount(request.status(), lateMinutes);
         
         Attendance attendance = Attendance.createAttendance(session, null, member, request.status(), lateMinutes, penaltyAmount);
+        attendance.changeCheckedInToNull();
         Attendance savedAttendance = attendanceRepository.save(attendance);
 
         // 패널티가 있을 경우
