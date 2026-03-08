@@ -1,3 +1,7 @@
 prography:
   current-cohort:
     generation: 11
+
+server:
+  servlet:
+    context-path: /api/v1
