@@ -37,7 +37,7 @@ public class LateMinutes {
 
     public static LateMinutes calculateLateMinutes(LocalDateTime checkedInAt, LocalDate sessionDate, LocalTime sessionTime) {
         if (checkedInAt.isBefore(LocalDateTime.of(sessionDate, sessionTime))) {
-            return new LateMinutes(0);
+            return null;
         }
         return new LateMinutes(checkedInAt.getMinute() - LocalDateTime.of(sessionDate, sessionTime).getMinute());
     }

@@ -88,7 +88,7 @@ public class RegisterAttendanceUsecase {
         // 지각 처리 계산
         LocalDateTime now = LocalDateTime.now();
         LateMinutes lateMinutes = LateMinutes.calculateLateMinutes(now, session.getSessionDate(), session.getSessionTime());
-        AttendanceStatus attendanceStatus = lateMinutes.getValue() > 0 ? AttendanceStatus.LATE : AttendanceStatus.PRESENT;
+        AttendanceStatus attendanceStatus = lateMinutes != null ? AttendanceStatus.LATE : AttendanceStatus.PRESENT;
 
         // 패널티 계산
         PenaltyAmount penaltyAmount = Attendance.calculatePenaltyAmount(attendanceStatus, lateMinutes);
