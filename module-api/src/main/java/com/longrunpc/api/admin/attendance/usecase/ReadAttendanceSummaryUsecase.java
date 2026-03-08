@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.longrunpc.api.admin.attendance.dto.response.MemberAttendanceSummaryResponse;
+import com.longrunpc.api.admin.attendance.dto.response.AdminMemberAttendanceSummaryResponse;
 import com.longrunpc.common.error.CohortErrorCode;
 import com.longrunpc.common.error.SessionErrorCode;
 import com.longrunpc.common.exception.BusinessException;
@@ -37,7 +37,7 @@ public class ReadAttendanceSummaryUsecase {
     private int currentGeneration;
 
     @Transactional(readOnly = true)
-    public List<MemberAttendanceSummaryResponse> execute(Long sessionId) {
+    public List<AdminMemberAttendanceSummaryResponse> execute(Long sessionId) {
         Cohort cohort = cohortRepository.findByGeneration(new Generation(currentGeneration))
             .orElseThrow(() -> new BusinessException(CohortErrorCode.COHORT_NOT_FOUND));
         
@@ -58,7 +58,7 @@ public class ReadAttendanceSummaryUsecase {
         .map(cm -> {
             List<Attendance> memberAttendances = attendanceMap.getOrDefault(cm.getMember().getId(), List.of());
             
-            return MemberAttendanceSummaryResponse.of(
+            return AdminMemberAttendanceSummaryResponse.of(
                 cm,                             
                 countStatus(memberAttendances),  
                 calculateTotalPenalty(memberAttendances) 
