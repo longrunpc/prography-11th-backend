@@ -1,8 +1,12 @@
 package com.longrunpc.api.admin.member.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.hasItem;
 
 import java.util.Objects;
 
@@ -17,9 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longrunpc.api.AttendanceApplication;
+import com.longrunpc.api.admin.member.dto.request.UpdateMemberRequest;
 import com.longrunpc.api.admin.member.dto.request.RegisterMemberRequest;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.domain.cohort.entity.Cohort;
+import com.longrunpc.domain.cohort.entity.CohortMember;
+import com.longrunpc.domain.cohort.repository.CohortMemberRepository;
 import com.longrunpc.domain.cohort.repository.CohortRepository;
 import com.longrunpc.domain.cohort.vo.CohortName;
 import com.longrunpc.domain.cohort.vo.Generation;
@@ -46,6 +53,9 @@ class AdminMemberControllerIntegrationTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private CohortMemberRepository cohortMemberRepository;
 
     @DisplayName("회원가입 성공 시 회원 상세 정보를 응답한다")
     @Test
@@ -111,5 +121,108 @@ class AdminMemberControllerIntegrationTest {
             .andExpect(jsonPath("$.data").doesNotExist())
             .andExpect(jsonPath("$.error.code").value(MemberErrorCode.DUPLICATE_LOGIN_ID.getCode()))
             .andExpect(jsonPath("$.error.message").value(MemberErrorCode.DUPLICATE_LOGIN_ID.getMessage()));
+    }
+
+    @DisplayName("회원 대시보드 조회 성공")
+    @Test
+    void should_read_member_dashboard() throws Exception {
+        // given
+        Cohort cohort = createCohort(11, "11기");
+        Member member = createMember("dashboard@example.com", "대시보드회원", "01077778888");
+        createCohortMember(member, cohort);
+
+        // when & then
+        mockMvc.perform(get("/admin/members")
+                .param("page", "0")
+                .param("size", "10"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.success").value(true))
+            .andExpect(jsonPath("$.data.totalElements").isNumber())
+            .andExpect(jsonPath("$.data.content[*].loginId", hasItem("dashboard@example.com")))
+            .andExpect(jsonPath("$.data.content[*].name", hasItem("대시보드회원")))
+            .andExpect(jsonPath("$.error").doesNotExist());
+    }
+
+    @DisplayName("회원 상세 조회 성공")
+    @Test
+    void should_read_member_detail() throws Exception {
+        // given
+        Cohort cohort = createCohort(12, "12기");
+        Member member = createMember("detail@example.com", "상세회원", "01033334444");
+        createCohortMember(member, cohort);
+
+        // when & then
+        mockMvc.perform(get("/admin/members/{id}", member.getId()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.success").value(true))
+            .andExpect(jsonPath("$.data.id").value(member.getId()))
+            .andExpect(jsonPath("$.data.loginId").value("detail@example.com"))
+            .andExpect(jsonPath("$.data.name").value("상세회원"))
+            .andExpect(jsonPath("$.data.generation").value(12))
+            .andExpect(jsonPath("$.error").doesNotExist());
+    }
+
+    @DisplayName("회원 정보 수정 성공")
+    @Test
+    void should_update_member() throws Exception {
+        // given
+        Cohort cohort = createCohort(13, "13기");
+        Member member = createMember("update@example.com", "수정전", "01055556666");
+        createCohortMember(member, cohort);
+
+        UpdateMemberRequest request = new UpdateMemberRequest(
+            "수정후",
+            "01000001111",
+            null,
+            null,
+            null
+        );
+
+        // when & then
+        mockMvc.perform(put("/admin/members/{id}", member.getId())
+                .contentType(Objects.requireNonNull(MediaType.APPLICATION_JSON))
+                .content(Objects.requireNonNull(objectMapper.writeValueAsString(request))))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.success").value(true))
+            .andExpect(jsonPath("$.data.id").value(member.getId()))
+            .andExpect(jsonPath("$.data.name").value("수정후"))
+            .andExpect(jsonPath("$.data.phone").value("01000001111"))
+            .andExpect(jsonPath("$.error").doesNotExist());
+    }
+
+    @DisplayName("회원 삭제(탈퇴) 성공")
+    @Test
+    void should_withdraw_member() throws Exception {
+        // given
+        Member member = createMember("withdraw@example.com", "탈퇴회원", "01012121212");
+
+        // when & then
+        mockMvc.perform(delete("/admin/members/{id}", member.getId()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.success").value(true))
+            .andExpect(jsonPath("$.data.id").value(member.getId()))
+            .andExpect(jsonPath("$.data.loginId").value("withdraw@example.com"))
+            .andExpect(jsonPath("$.data.status").value("WITHDRAWN"))
+            .andExpect(jsonPath("$.error").doesNotExist());
+    }
+
+    private Cohort createCohort(int generation, String cohortName) {
+        return Objects.requireNonNull(cohortRepository.save(Cohort.builder()
+            .generation(new Generation(generation))
+            .cohortName(new CohortName(cohortName))
+            .build()));
+    }
+
+    private Member createMember(String loginId, String name, String phone) {
+        return Objects.requireNonNull(memberRepository.save(Member.createMember(
+            new LoginId(loginId),
+            new Password("password"),
+            new MemberName(name),
+            new Phone(phone)
+        )));
+    }
+
+    private CohortMember createCohortMember(Member member, Cohort cohort) {
+        return Objects.requireNonNull(cohortMemberRepository.save(CohortMember.createCohortMember(member, cohort, null, null)));
     }
 }
