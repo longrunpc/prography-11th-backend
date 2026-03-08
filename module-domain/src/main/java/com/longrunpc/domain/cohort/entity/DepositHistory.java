@@ -14,8 +14,10 @@ import jakarta.persistence.EnumType;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import com.longrunpc.common.constant.attendance.AttendanceConstants;
 import com.longrunpc.common.constant.cohort.CohortConstants;
 import com.longrunpc.domain.attendance.entity.Attendance;
+import com.longrunpc.domain.attendance.vo.PenaltyAmount;
 import com.longrunpc.domain.cohort.vo.Description;
 import com.longrunpc.domain.common.entity.BaseEntity;
 
@@ -63,6 +65,17 @@ public class DepositHistory extends BaseEntity {
             .amount(CohortConstants.INITIAL_DEPOSIT)
             .balanceAfter(CohortConstants.INITIAL_DEPOSIT)
             .description(new Description(CohortConstants.INITIAL_DEPOSIT_DESCRIPTION))
+            .build();
+    }
+
+    public static DepositHistory penaltyDeposit(Attendance attendance, PenaltyAmount penaltyAmount) {
+        return DepositHistory.builder()
+            .cohortMember(attendance.getCohortMember())
+            .attendance(attendance)
+            .depositType(DepositType.PENALTY)
+            .amount(penaltyAmount.getValue())
+            .balanceAfter(attendance.getCohortMember().getDeposit().getValue() - penaltyAmount.getValue())
+            .description(new Description(String.format(AttendanceConstants.PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), penaltyAmount.getValue())))
             .build();
     }
 }
