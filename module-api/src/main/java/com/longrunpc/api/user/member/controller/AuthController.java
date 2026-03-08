@@ -11,6 +11,7 @@ import com.longrunpc.api.user.member.dto.response.MemberResponse;
 import com.longrunpc.api.user.member.usecase.LoginMemberUsecase;
 import com.longrunpc.common.response.ApiResponse;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,7 +22,7 @@ public class AuthController {
     private final LoginMemberUsecase loginMemberUsecase;
     
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<MemberResponse>> login(@RequestBody LoginMemberRequest request) {
+    public ResponseEntity<ApiResponse<MemberResponse>> login(@Valid @RequestBody LoginMemberRequest request) {
         return ResponseEntity.ok(ApiResponse.success(loginMemberUsecase.execute(request)));
     }
 }
