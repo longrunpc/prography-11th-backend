@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 @ExtendWith(MockitoExtension.class)
 public class ReadMemberUsecaseTest {
     @InjectMocks
-    private ReadtMemberUsecase getMemberUsecase;
+    private ReadMemberUsecase getMemberUsecase;
     @Mock
     private MemberRepository memberRepository;
 
