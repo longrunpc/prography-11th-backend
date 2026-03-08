@@ -36,7 +36,7 @@ public class ReadAttendanceSummaryUsecase {
     @Value("${prography.current-cohort.generation}")
     private int currentGeneration;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<MemberAttendanceSummaryResponse> execute(Long sessionId) {
         Cohort cohort = cohortRepository.findByGeneration(new Generation(currentGeneration))
             .orElseThrow(() -> new BusinessException(CohortErrorCode.COHORT_NOT_FOUND));

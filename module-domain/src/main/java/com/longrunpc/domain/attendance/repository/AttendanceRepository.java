@@ -21,4 +21,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findAllWithSessionByMemberId(@Param("memberId") Long memberId);
 
     List<Attendance> findAllByMemberIdIn(List<Long> memberIds);
+    
+    List<Attendance> findAllByMemberId(Long memberId);
 }
