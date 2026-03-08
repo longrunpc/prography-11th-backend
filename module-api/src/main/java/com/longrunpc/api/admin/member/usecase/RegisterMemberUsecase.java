@@ -20,6 +20,9 @@ import com.longrunpc.domain.member.vo.LoginId;
 import com.longrunpc.domain.member.vo.Password;
 import com.longrunpc.domain.member.vo.MemberName;
 import com.longrunpc.domain.member.vo.Phone;
+
+import jakarta.validation.Valid;
+
 import com.longrunpc.domain.cohort.entity.Cohort;
 import com.longrunpc.domain.cohort.entity.CohortMember;
 import com.longrunpc.domain.cohort.entity.DepositHistory;
@@ -41,7 +44,7 @@ public class RegisterMemberUsecase {
     private final PasswordEncoder passwordEncoder;
     
     @Transactional
-    public MemberDetailResponse execute(RegisterMemberRequest request) {
+    public MemberDetailResponse execute(@Valid RegisterMemberRequest request) {
         // 아이디 중복 검사
         if (memberRepository.findByLoginId(new LoginId(request.loginId())).isPresent()) {
             throw new BusinessException(MemberErrorCode.DUPLICATE_LOGIN_ID);

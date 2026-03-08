@@ -12,6 +12,9 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.longrunpc.common.response.ApiResponse;
+
+import jakarta.validation.Valid;
+
 import com.longrunpc.api.user.attendance.dto.request.RegisterAttendanceRequest;
 import com.longrunpc.api.user.attendance.dto.response.AttendanceDetailResponse;
 import com.longrunpc.api.user.attendance.dto.response.AttendanceResponse;
@@ -29,7 +32,7 @@ public class AttendanceController {
     private final ReadAttendancesUsecase readAttendancesUsecase;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<AttendanceDetailResponse>> registerAttendance(@RequestBody RegisterAttendanceRequest request) {
+    public ResponseEntity<ApiResponse<AttendanceDetailResponse>> registerAttendance(@Valid @RequestBody RegisterAttendanceRequest request) {
         return ResponseEntity.ok(ApiResponse.success(registerAttendanceUsecase.execute(request)));
     }
 

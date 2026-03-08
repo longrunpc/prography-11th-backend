@@ -25,9 +25,9 @@ public record AttendanceResponse(
             .sessionId(attendance.getSession().getId())
             .sessionTitle(attendance.getSession().getTitle().getValue())
             .status(attendance.getAttendanceStatus())
-            .lateMinutes(attendance.getLateMinutes().getValue())
+            .lateMinutes((attendance.getLateMinutes() != null) ? attendance.getLateMinutes().getValue() : null)
             .penaltyAmount(attendance.getPenaltyAmount().getValue())
-            .reason(attendance.getReason().getValue())
+            .reason((attendance.getReason() != null) ? attendance.getReason().getValue() : null)
             .checkedInAt(attendance.getCheckedInAt())
             .createdAt(attendance.getCreatedAt())
             .build();

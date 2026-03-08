@@ -15,6 +15,8 @@ import com.longrunpc.api.admin.session.dto.response.QrCodeResponse;
 import com.longrunpc.api.admin.session.dto.response.SessionDetailResponse;
 import com.longrunpc.common.response.ApiResponse;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,7 +47,7 @@ public class AdminSessionController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<SessionDetailResponse>> createSession(@RequestBody CreateSessionRequest request) {
+    public ResponseEntity<ApiResponse<SessionDetailResponse>> createSession(@Valid @RequestBody CreateSessionRequest request) {
         return ResponseEntity.ok(ApiResponse.success(createSessionUsecase.execute(request)));
     }
 
