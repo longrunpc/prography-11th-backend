@@ -15,7 +15,7 @@ import com.longrunpc.common.exception.BusinessException;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
 public class Reason {
-    @Column(name = "reason", nullable = false)
+    @Column(name = "reason", nullable = true)
     private String value;
 
     public Reason(String value) {
