@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.longrunpc.api.AttendanceApplication;
 import com.longrunpc.api.admin.member.dto.request.UpdateMemberRequest;
 import com.longrunpc.api.admin.member.dto.request.RegisterMemberRequest;
+import com.longrunpc.common.error.GlobalErrorCode;
 import com.longrunpc.common.error.MemberErrorCode;
 import com.longrunpc.domain.cohort.entity.Cohort;
 import com.longrunpc.domain.cohort.entity.CohortMember;
@@ -162,6 +163,30 @@ class AdminMemberControllerIntegrationTest {
             .andExpect(jsonPath("$.error").doesNotExist());
     }
 
+    @DisplayName("회원 상세 조회 실패 - 존재하지 않는 회원")
+    @Test
+    void should_fail_read_member_detail_when_member_not_found() throws Exception {
+        // when & then
+        mockMvc.perform(get("/admin/members/{id}", 999999L))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(MemberErrorCode.MEMBER_NOT_FOUND.getCode()))
+            .andExpect(jsonPath("$.error.message").value(MemberErrorCode.MEMBER_NOT_FOUND.getMessage()));
+    }
+
+    @DisplayName("회원 상세 조회 실패 - 잘못된 id 타입")
+    @Test
+    void should_fail_read_member_detail_when_id_is_invalid_type() throws Exception {
+        // when & then
+        mockMvc.perform(get("/admin/members/{id}", "invalid-id"))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(GlobalErrorCode.INTERNAL_ERROR.getCode()))
+            .andExpect(jsonPath("$.error.message").value(GlobalErrorCode.INTERNAL_ERROR.getMessage()));
+    }
+
     @DisplayName("회원 정보 수정 성공")
     @Test
     void should_update_member() throws Exception {
@@ -190,6 +215,52 @@ class AdminMemberControllerIntegrationTest {
             .andExpect(jsonPath("$.error").doesNotExist());
     }
 
+    @DisplayName("회원 정보 수정 실패 - 존재하지 않는 회원")
+    @Test
+    void should_fail_update_member_when_member_not_found() throws Exception {
+        // given
+        UpdateMemberRequest request = new UpdateMemberRequest(
+            "수정후",
+            "01000001111",
+            null,
+            null,
+            null
+        );
+
+        // when & then
+        mockMvc.perform(put("/admin/members/{id}", 999999L)
+                .contentType(Objects.requireNonNull(MediaType.APPLICATION_JSON))
+                .content(Objects.requireNonNull(objectMapper.writeValueAsString(request))))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(MemberErrorCode.MEMBER_NOT_FOUND.getCode()))
+            .andExpect(jsonPath("$.error.message").value(MemberErrorCode.MEMBER_NOT_FOUND.getMessage()));
+    }
+
+    @DisplayName("회원 정보 수정 실패 - 잘못된 id 타입")
+    @Test
+    void should_fail_update_member_when_id_is_invalid_type() throws Exception {
+        // given
+        UpdateMemberRequest request = new UpdateMemberRequest(
+            "수정후",
+            "01000001111",
+            null,
+            null,
+            null
+        );
+
+        // when & then
+        mockMvc.perform(put("/admin/members/{id}", "invalid-id")
+                .contentType(Objects.requireNonNull(MediaType.APPLICATION_JSON))
+                .content(Objects.requireNonNull(objectMapper.writeValueAsString(request))))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(GlobalErrorCode.INTERNAL_ERROR.getCode()))
+            .andExpect(jsonPath("$.error.message").value(GlobalErrorCode.INTERNAL_ERROR.getMessage()));
+    }
+
     @DisplayName("회원 삭제(탈퇴) 성공")
     @Test
     void should_withdraw_member() throws Exception {
@@ -204,6 +275,34 @@ class AdminMemberControllerIntegrationTest {
             .andExpect(jsonPath("$.data.loginId").value("withdraw@example.com"))
             .andExpect(jsonPath("$.data.status").value("WITHDRAWN"))
             .andExpect(jsonPath("$.error").doesNotExist());
+    }
+
+    @DisplayName("회원 삭제(탈퇴) 실패 - 이미 탈퇴한 회원")
+    @Test
+    void should_fail_withdraw_when_member_already_withdrawn() throws Exception {
+        // given
+        Member member = createMember("already-withdrawn@example.com", "기탈퇴회원", "01034343434");
+        member.withdraw();
+
+        // when & then
+        mockMvc.perform(delete("/admin/members/{id}", member.getId()))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(MemberErrorCode.MEMBER_ALREADY_WITHDRAWN.getCode()))
+            .andExpect(jsonPath("$.error.message").value(MemberErrorCode.MEMBER_ALREADY_WITHDRAWN.getMessage()));
+    }
+
+    @DisplayName("회원 삭제(탈퇴) 실패 - 잘못된 id 타입")
+    @Test
+    void should_fail_withdraw_when_id_is_invalid_type() throws Exception {
+        // when & then
+        mockMvc.perform(delete("/admin/members/{id}", "invalid-id"))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(GlobalErrorCode.INTERNAL_ERROR.getCode()))
+            .andExpect(jsonPath("$.error.message").value(GlobalErrorCode.INTERNAL_ERROR.getMessage()));
     }
 
     private Cohort createCohort(int generation, String cohortName) {
