@@ -26,7 +26,6 @@ import com.longrunpc.api.admin.session.dto.response.SessionDetailResponse;
 import com.longrunpc.domain.attendance.entity.Attendance;
 import com.longrunpc.domain.attendance.repository.AttendanceRepository;
 import com.longrunpc.domain.cohort.entity.Cohort;
-import com.longrunpc.domain.cohort.entity.CohortMember;
 import com.longrunpc.domain.cohort.repository.CohortRepository;
 import com.longrunpc.domain.session.entity.QrCode;
 import com.longrunpc.domain.session.entity.Session;
@@ -35,8 +34,6 @@ import com.longrunpc.domain.session.repository.SessionRepository;
 import com.longrunpc.domain.cohort.vo.Generation;
 import com.longrunpc.domain.member.entity.Member;
 import com.longrunpc.domain.cohort.vo.CohortName;
-import com.longrunpc.domain.cohort.vo.Deposit;
-import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.session.vo.SessionTitle;
 import com.longrunpc.domain.session.vo.QrCodeHashValue;
 import com.longrunpc.domain.session.vo.SessionLocation;
@@ -71,7 +68,6 @@ public class ReadSessionDetailsUsecaseTest {
 
     private Cohort cohort;
     private Member member;
-    private CohortMember cohortMember;
     private List<Session> sessions;
     private List<Attendance> attendances;
     private List<QrCode> qrCodes;
@@ -92,15 +88,6 @@ public class ReadSessionDetailsUsecaseTest {
             .phone(new Phone("01012345678"))
             .role(MemberRole.MEMBER)
             .status(MemberStatus.ACTIVE)
-            .build();
-        cohortMember = CohortMember.builder()
-            .id(1L)
-            .member(member)
-            .cohort(cohort)
-            .part(null)
-            .team(null)
-            .deposit(new Deposit(100_000))
-            .excusedCount(new ExcusedCount(0))
             .build();
         sessions = List.of(
             Session.builder()
@@ -126,7 +113,7 @@ public class ReadSessionDetailsUsecaseTest {
                 .id(1L)
                 .session(sessions.get(0))
                 .qrCode(qrCodes.get(0))
-                .cohortMember(cohortMember)
+                .member(member)
                 .attendanceStatus(AttendanceStatus.PRESENT)
                 .lateMinutes(new LateMinutes(5))
                 .penaltyAmount(new PenaltyAmount(10000))

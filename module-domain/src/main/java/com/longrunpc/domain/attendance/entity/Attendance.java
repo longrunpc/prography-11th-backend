@@ -16,7 +16,7 @@ import java.util.Objects;
 import com.longrunpc.domain.common.entity.BaseEntity;
 import com.longrunpc.domain.session.entity.QrCode;
 import com.longrunpc.domain.session.entity.Session;
-import com.longrunpc.domain.cohort.entity.CohortMember;
+import com.longrunpc.domain.member.entity.Member;
 import com.longrunpc.common.constant.attendance.AttendanceConstants;
 import com.longrunpc.common.error.GlobalErrorCode;
 import com.longrunpc.common.exception.BusinessException;
@@ -44,8 +44,8 @@ public class Attendance extends BaseEntity {
     private QrCode qrCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cohort_member_id", nullable = false)
-    private CohortMember cohortMember;
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     @Column(name = "attendance_status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -64,11 +64,11 @@ public class Attendance extends BaseEntity {
     private LocalDateTime checkedInAt;
     
     @Builder
-    private Attendance(Long id, Session session, QrCode qrCode, CohortMember cohortMember, AttendanceStatus attendanceStatus, LateMinutes lateMinutes, PenaltyAmount penaltyAmount, Reason reason, LocalDateTime checkedInAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private Attendance(Long id, Session session, QrCode qrCode, Member member, AttendanceStatus attendanceStatus, LateMinutes lateMinutes, PenaltyAmount penaltyAmount, Reason reason, LocalDateTime checkedInAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id, createdAt, updatedAt);
         this.session = Objects.requireNonNull(session);
         this.qrCode = Objects.requireNonNull(qrCode);
-        this.cohortMember = Objects.requireNonNull(cohortMember);
+        this.member = Objects.requireNonNull(member);
         this.attendanceStatus = Objects.requireNonNull(attendanceStatus);
         this.lateMinutes = lateMinutes;
         this.penaltyAmount = Objects.requireNonNull(penaltyAmount);
@@ -76,14 +76,14 @@ public class Attendance extends BaseEntity {
         this.checkedInAt = Objects.requireNonNull(checkedInAt);
     }
 
-    public static Attendance createAttendance(Session session, QrCode qrCode, CohortMember cohortMember, LateMinutes lateMinutes) {
+    public static Attendance createAttendance(Session session, QrCode qrCode, Member member, LateMinutes lateMinutes) {
         LocalDateTime checkedInAt = LocalDateTime.now();
         AttendanceStatus attendanceStatus = lateMinutes.getValue() > 0 ? AttendanceStatus.LATE : AttendanceStatus.PRESENT;
         PenaltyAmount calculatedPenaltyAmount = calculatePenaltyAmount(attendanceStatus, lateMinutes);
         return Attendance.builder()
             .session(session)
             .qrCode(qrCode)
-            .cohortMember(cohortMember)
+            .member(member)
             .attendanceStatus(attendanceStatus)
             .lateMinutes(lateMinutes)
             .penaltyAmount(calculatedPenaltyAmount)

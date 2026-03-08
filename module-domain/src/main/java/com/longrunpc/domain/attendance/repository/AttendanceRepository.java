@@ -10,6 +10,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findBySessionId(Long sessionId);
 
     List<Attendance> findBySessionIdIn(List<Long> sessionIds);
-
+    
     boolean existsBySessionIdAndMemberId(Long sessionId, Long memberId);
 }

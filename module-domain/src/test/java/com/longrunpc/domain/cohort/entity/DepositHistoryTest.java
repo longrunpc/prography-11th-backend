@@ -14,8 +14,6 @@ import com.longrunpc.domain.attendance.entity.Attendance;
 import com.longrunpc.domain.attendance.vo.LateMinutes;
 import com.longrunpc.domain.cohort.vo.Description;
 import com.longrunpc.domain.cohort.vo.CohortName;
-import com.longrunpc.domain.cohort.vo.Deposit;
-import com.longrunpc.domain.cohort.vo.ExcusedCount;
 import com.longrunpc.domain.cohort.vo.Generation;
 import com.longrunpc.domain.member.entity.Member;
 import com.longrunpc.domain.member.entity.MemberRole;
@@ -29,6 +27,8 @@ import com.longrunpc.domain.session.entity.Session;
 import com.longrunpc.domain.session.entity.SessionStatus;
 import com.longrunpc.domain.session.vo.SessionLocation;
 import com.longrunpc.domain.session.vo.SessionTitle;
+import com.longrunpc.domain.cohort.vo.Deposit;
+import com.longrunpc.domain.cohort.vo.ExcusedCount;
 
 @DisplayName("DepositHistory 엔티티 테스트")
 public class DepositHistoryTest {
@@ -59,6 +59,8 @@ public class DepositHistoryTest {
             .id(1L)
             .member(member)
             .cohort(cohort)
+            .part(null)
+            .team(null)
             .deposit(new Deposit(100_000))
             .excusedCount(new ExcusedCount(0))
             .build();
@@ -74,7 +76,7 @@ public class DepositHistoryTest {
             .build();
 
         QrCode qrCode = QrCode.createQrCode(session);
-        attendance = Attendance.createAttendance(session, qrCode, cohortMember, new LateMinutes(5));
+        attendance = Attendance.createAttendance(session, qrCode, member, new LateMinutes(5));
     }
 
     @DisplayName("builder 테스트")

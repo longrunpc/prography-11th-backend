@@ -93,7 +93,7 @@ public class RegisterAttendanceUsecase {
         // 패널티 계산
         PenaltyAmount penaltyAmount = Attendance.calculatePenaltyAmount(attendanceStatus, lateMinutes);
 
-        Attendance attendance = Attendance.createAttendance(session, qrCode, cohortMember, lateMinutes);
+        Attendance attendance = Attendance.createAttendance(session, qrCode, member, lateMinutes);
         Attendance savedAttendance = attendanceRepository.save(attendance);
 
         // 패널티가 있을 경우
@@ -101,7 +101,7 @@ public class RegisterAttendanceUsecase {
             // 패널티 납부 처리
             cohortMember.decreaseDeposit(penaltyAmount.getValue());
 
-            DepositHistory depositHistory = DepositHistory.penaltyDeposit(savedAttendance, penaltyAmount);
+            DepositHistory depositHistory = DepositHistory.penaltyDeposit(cohortMember, savedAttendance, penaltyAmount);
             depositHistoryRepository.save(depositHistory);
         }
 

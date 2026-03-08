@@ -68,13 +68,13 @@ public class DepositHistory extends BaseEntity {
             .build();
     }
 
-    public static DepositHistory penaltyDeposit(Attendance attendance, PenaltyAmount penaltyAmount) {
+    public static DepositHistory penaltyDeposit(CohortMember cohortMember, Attendance attendance, PenaltyAmount penaltyAmount) {
         return DepositHistory.builder()
-            .cohortMember(attendance.getCohortMember())
+            .cohortMember(cohortMember)
             .attendance(attendance)
             .depositType(DepositType.PENALTY)
             .amount(penaltyAmount.getValue())
-            .balanceAfter(attendance.getCohortMember().getDeposit().getValue() - penaltyAmount.getValue())
+            .balanceAfter(cohortMember.getDeposit().getValue() - penaltyAmount.getValue())
             .description(new Description(String.format(AttendanceConstants.PENALTY_DESCRIPTION, attendance.getAttendanceStatus().name(), penaltyAmount.getValue())))
             .build();
     }

@@ -25,7 +25,7 @@ public record AttendanceDetailResponse(
         return AttendanceDetailResponse.builder()
             .id(attendance.getId())
             .sessionId(attendance.getSession().getId())
-            .memberId(attendance.getCohortMember().getMember().getId())
+            .memberId(attendance.getMember().getId())
             .status(attendance.getAttendanceStatus())
             .lateMinutes(attendance.getLateMinutes().getValue())
             .penaltyAmount(attendance.getPenaltyAmount().getValue())
