@@ -23,4 +23,11 @@ public interface CohortMemberRepository extends JpaRepository<CohortMember, Long
     Optional<CohortMember> findDetailByMemberId(@Param("memberId") Long memberId);
 
     List<CohortMember> findAllConditions(MemberStatus status, String searchType, String searchValue);
+
+    Optional<CohortMember> findByCohortIdAndMemberId(Long cohortId, Long memberId);
+
+    @Query("SELECT cm FROM CohortMember cm" +
+            " INNER JOIN FETCH cm.member" +
+            " WHERE cm.cohort.id = :cohortId")
+    List<CohortMember> findAllByCohortIdWithMember(@Param("cohortId") Long cohortId);
 }

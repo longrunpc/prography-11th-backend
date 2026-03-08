@@ -111,5 +111,9 @@ public class Session extends BaseEntity {
     public boolean isCancelled() {
         return this.sessionStatus == SessionStatus.CANCELLED;
     }
+
+    public boolean isInProgress() {
+        return this.sessionStatus == SessionStatus.IN_PROGRESS;
+    }
 }
 
