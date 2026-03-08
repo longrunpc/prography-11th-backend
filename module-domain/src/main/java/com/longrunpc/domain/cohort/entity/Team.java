@@ -1,0 +1,41 @@
+package com.longrunpc.domain.cohort.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Embedded;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+import com.longrunpc.domain.cohort.vo.TeamName;
+import com.longrunpc.domain.common.entity.BaseEntity;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
+
+@Entity
+@Table(name = "team")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Team extends BaseEntity {
+
+    @Embedded
+    private TeamName teamName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cohort_id", nullable = false)
+    private Cohort cohort;
+
+    // Team는 생성할 일이 없지만 테스트용으로 남겨둠
+    @Builder
+    private Team(Long id, TeamName teamName, Cohort cohort, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, createdAt, updatedAt);
+        this.teamName = Objects.requireNonNull(teamName);
+        this.cohort = Objects.requireNonNull(cohort);
+    }
+}

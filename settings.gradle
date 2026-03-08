@@ -1,0 +1,5 @@
+rootProject.name = 'attendance'
+
+include 'module-api'
+include 'module-domain'
+include 'module-common'
