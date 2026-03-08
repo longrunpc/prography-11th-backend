@@ -28,7 +28,7 @@ public record AdminAttendanceResponse(
             .status(attendance.getAttendanceStatus())
             .lateMinutes(attendance.getLateMinutes() != null ? attendance.getLateMinutes().getValue() : null)
             .penaltyAmount(attendance.getPenaltyAmount().getValue())
-            .reason(attendance.getReason().getValue())
+            .reason(attendance.getReason() != null ? attendance.getReason().getValue() : null)
             .checkedInAt(attendance.getCheckedInAt())
             .createdAt(attendance.getCreatedAt())
             .updatedAt(attendance.getUpdatedAt())
