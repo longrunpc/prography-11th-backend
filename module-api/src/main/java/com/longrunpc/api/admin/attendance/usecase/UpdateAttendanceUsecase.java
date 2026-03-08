@@ -82,7 +82,8 @@ public class UpdateAttendanceUsecase {
         if (request.reason() != null) {
             attendance.changeReason(new Reason(request.reason()));
         }
-            
+        attendance.changeCheckedInToNull();
+        
         return AdminAttendanceResponse.of(attendance);
     }
 }

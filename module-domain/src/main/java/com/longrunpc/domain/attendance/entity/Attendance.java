@@ -73,7 +73,7 @@ public class Attendance extends BaseEntity {
         this.lateMinutes = lateMinutes;
         this.penaltyAmount = Objects.requireNonNull(penaltyAmount);
         this.reason = reason;
-        this.checkedInAt = Objects.requireNonNull(checkedInAt);
+        this.checkedInAt = checkedInAt;
     }
 
     public static Attendance createAttendance(Session session, QrCode qrCode, Member member, AttendanceStatus attendanceStatus, LateMinutes lateMinutes, PenaltyAmount penaltyAmount) {
