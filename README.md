@@ -1,22 +1,78 @@
 # prography-11th-backend
 prography 11th backend assignment
 
+## 실행 방법
 
-## 외래키 제약 방식의 사용이유
-- 본 프로젝트는 MSA 환경도 아니고 JPA를 사용해서 진행할 것이라 개발 편의성과 데이터의 일관성을 이유로 외래키 제약 방식을 사용했습니다.
+### 요구 사항
+- Java 21
+- Gradle Wrapper
 
-# Unique Key 설정 이유
-- UK_MEMBER_LOGIN_ID : 로그인은 시스템에서 빈번하게 발생하는 조회임과 동시에 중복 방지 차원에서 유니크 키로 선정
-- UK_COHORT_GENERATION : 기수 중복 방지를 위해 선정
-- UK_QR_HASH_VALUE : QR코드는 매 기수 출석 시마다 쌓일 경우 데이터가 방대해 질 경우 대비와 중복 방지 차원에서 유니크 키로 선정
-- UK_MEMBER_COHORT : 한 기수의 동일 회원이 두번 등록 됨을 방지하기 위함과 조회 성능 최적화를 위해 선정
-- UK_SESSION_MEMBER_ATTENDANCE : 세션내의 출결 목록 조회 성능 향상과 중복 출석 방지를 db 차원에서 방지 하기 위해 선정
+### 다운로드 후
+프로젝트를 다운로드(클론)한 뒤, 루트 프로젝트(`prography-11th-backend`)로 이동합니다.
 
-- 추후 추가적인 인덱스로 성능향상을 노릴 수도 있겠지만, 테이블 성격 및 프로젝트 규모 상 비효율적이라 생각됩니다.
+```bash
+cd prography-11th-backend
+```
 
-## 멀티모듈 아키텍처 선정 이유 및 패키지 구성 이유
-- 멀티 모듈 아키텍처를 활용하여 모듈별 책임에 맞춰 최대한 분할
-- module-api : 서비스의 진입점으로 외부 요청 및 응답, 도메인 서비스 조합
-- module-domain : 도메인 엔티티 정의 및 도메인 서비스 로직 및 db 연결 및 레포지토리 구성 구성
-- module-common : 전역적으로 사용되는 공통 유틸리티, 예외처리, 상수 관리
-- 더 모듈을 책임별로 분리하여 구성할 수도 있지만 프로젝트 규모와 제한된 개발 시간의 이유로 이처럼 구성하였습니다.
+### 실행
+루트 프로젝트에서 아래 명령어를 실행하면 바로 서버가 실행됩니다.
+
+```bash
+./gradlew :module-api:bootRun
+```
+
+### 확인
+- API Base URL: `http://localhost:8080/api/v1`
+- H2 Console: `http://localhost:8080/api/v1/h2-console`
+
+## 프로젝트 패키지 아키텍처
+
+멀티 모듈 구조로 책임을 분리했습니다.
+
+```text
+prography-11th-backend
+├── module-api
+│   └── com.longrunpc.api
+│       ├── admin/{attendance, cohort, member, session}
+│       ├── user/{attendance, member, session}
+│       ├── config
+│       └── AttendanceApplication
+├── module-domain
+│   └── com.longrunpc.domain
+│       ├── {attendance, cohort, member, session}
+│       │   ├── entity
+│       │   ├── repository
+│       │   └── vo
+│       └── config
+└── module-common
+    └── com.longrunpc.common
+        ├── constant
+        ├── error
+        ├── exception
+        └── response
+```
+
+- `module-api`: 컨트롤러, 요청/응답 DTO, 유스케이스 등 애플리케이션 진입점
+- `module-domain`: 도메인 엔티티/VO, 레포지토리, 도메인 규칙
+- `module-common`: 공통 응답 포맷, 예외/에러코드, 상수
+- 의존 방향: `module-api -> module-domain`, `module-api -> module-common`
+
+
+## ERD
+
+![attendance erd](./docs/attendance_erd.png)
+
+## 회고
+
+[회고 문서](./docs/RETROSPECTIVE.md)
+
+## API 구현 현황
+| 분류 | 목표 개수 | 구현 상태 |
+| :--- | :---: | :---: |
+| 필수 API | 16개 | 완료 (100%) |
+| 가산점 API | 9개 | 완료 (100%) |
+
+
+## API 명세
+
+[API 명세](https://github.com/prography/11th-assignment-be-api-spec/tree/main?tab=readme-ov-file)
