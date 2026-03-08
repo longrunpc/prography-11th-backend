@@ -14,7 +14,6 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 import com.longrunpc.common.error.GlobalErrorCode;
-import com.longrunpc.common.error.SessionErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.cohort.entity.Cohort;
 
@@ -86,39 +85,27 @@ public class Session extends BaseEntity {
     }
 
     public void changeTitle(SessionTitle title) {
-        validateNotCancelled();
         this.title = Objects.requireNonNull(title);
     }
 
     public void changeSessionDate(LocalDate sessionDate) {
-        validateNotCancelled();
         this.sessionDate = Objects.requireNonNull(sessionDate);
     }
 
     public void changeSessionTime(LocalTime sessionTime) {
-        validateNotCancelled();
         this.sessionTime = Objects.requireNonNull(sessionTime);
     }
     
     public void changeSessionLocation(SessionLocation sessionLocation) {
-        validateNotCancelled();
         this.sessionLocation = Objects.requireNonNull(sessionLocation);
     }
 
     public void changeSessionStatus(SessionStatus sessionStatus) {
-        validateNotCancelled();
         this.sessionStatus = Objects.requireNonNull(sessionStatus);
     }
 
     public void cancel() {
-        validateNotCancelled();
         this.sessionStatus = SessionStatus.CANCELLED;
-    }
-
-    public void validateNotCancelled() {
-        if (this.sessionStatus == SessionStatus.CANCELLED) {
-            throw new BusinessException(SessionErrorCode.SESSION_ALREADY_CANCELLED);
-        }
     }
 
     public boolean isCancelled() {
