@@ -67,7 +67,7 @@ public class Attendance extends BaseEntity {
     private Attendance(Long id, Session session, QrCode qrCode, Member member, AttendanceStatus attendanceStatus, LateMinutes lateMinutes, PenaltyAmount penaltyAmount, Reason reason, LocalDateTime checkedInAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(id, createdAt, updatedAt);
         this.session = Objects.requireNonNull(session);
-        this.qrCode = Objects.requireNonNull(qrCode);
+        this.qrCode = qrCode;
         this.member = Objects.requireNonNull(member);
         this.attendanceStatus = Objects.requireNonNull(attendanceStatus);
         this.lateMinutes = lateMinutes;
