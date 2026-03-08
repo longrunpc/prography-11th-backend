@@ -35,6 +35,8 @@ import com.longrunpc.domain.cohort.repository.CohortRepository;
 import com.longrunpc.domain.cohort.vo.Generation;
 import com.longrunpc.domain.session.entity.Session;
 import com.longrunpc.domain.session.entity.SessionStatus;
+import com.longrunpc.domain.session.entity.QrCode;
+import com.longrunpc.domain.session.repository.QrCodeRepository;
 import com.longrunpc.domain.session.repository.SessionRepository;
 import com.longrunpc.domain.session.vo.SessionLocation;
 import com.longrunpc.domain.session.vo.SessionTitle;
@@ -52,6 +54,9 @@ class AdminSessionControllerIntegrationTest {
 
     @Autowired
     private SessionRepository sessionRepository;
+
+    @Autowired
+    private QrCodeRepository qrCodeRepository;
 
     @Autowired
     private CohortRepository cohortRepository;
@@ -288,6 +293,61 @@ class AdminSessionControllerIntegrationTest {
     void should_fail_delete_session_when_id_is_invalid_type() throws Exception {
         // when & then
         mockMvc.perform(delete("/admin/sessions/{id}", "invalid-id"))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(GlobalErrorCode.INTERNAL_ERROR.getCode()))
+            .andExpect(jsonPath("$.error.message").value(GlobalErrorCode.INTERNAL_ERROR.getMessage()));
+    }
+
+    @DisplayName("QR 생성 성공")
+    @Test
+    void should_create_qrcode() throws Exception {
+        // given
+        Session session = createSessionEntity("QR 생성 대상");
+
+        // when & then
+        mockMvc.perform(post("/admin/sessions/{sessionId}/qrcodes", session.getId()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.success").value(true))
+            .andExpect(jsonPath("$.data.sessionId").value(session.getId()))
+            .andExpect(jsonPath("$.data.hashValue").isString())
+            .andExpect(jsonPath("$.error").doesNotExist());
+    }
+
+    @DisplayName("QR 생성 실패 - 존재하지 않는 일정")
+    @Test
+    void should_fail_create_qrcode_when_session_not_found() throws Exception {
+        // when & then
+        mockMvc.perform(post("/admin/sessions/{sessionId}/qrcodes", 999999L))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(SessionErrorCode.SESSION_NOT_FOUND.getCode()))
+            .andExpect(jsonPath("$.error.message").value(SessionErrorCode.SESSION_NOT_FOUND.getMessage()));
+    }
+
+    @DisplayName("QR 생성 실패 - 이미 활성화된 QR 존재")
+    @Test
+    void should_fail_create_qrcode_when_qr_already_active() throws Exception {
+        // given
+        Session session = createSessionEntity("QR 중복 생성 대상");
+        Objects.requireNonNull(qrCodeRepository.save(QrCode.createQrCode(session)));
+
+        // when & then
+        mockMvc.perform(post("/admin/sessions/{sessionId}/qrcodes", session.getId()))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.success").value(false))
+            .andExpect(jsonPath("$.data").doesNotExist())
+            .andExpect(jsonPath("$.error.code").value(SessionErrorCode.QR_ALREADY_ACTIVE.getCode()))
+            .andExpect(jsonPath("$.error.message").value(SessionErrorCode.QR_ALREADY_ACTIVE.getMessage()));
+    }
+
+    @DisplayName("QR 생성 실패 - 잘못된 sessionId 타입")
+    @Test
+    void should_fail_create_qrcode_when_session_id_is_invalid_type() throws Exception {
+        // when & then
+        mockMvc.perform(post("/admin/sessions/{sessionId}/qrcodes", "invalid-id"))
             .andExpect(status().isInternalServerError())
             .andExpect(jsonPath("$.success").value(false))
             .andExpect(jsonPath("$.data").doesNotExist())
