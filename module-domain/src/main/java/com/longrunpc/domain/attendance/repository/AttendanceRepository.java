@@ -19,4 +19,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "LEFT JOIN FETCH a.session " +
             "WHERE a.member.id = :memberId")
     List<Attendance> findAllWithSessionByMemberId(@Param("memberId") Long memberId);
+
+    List<Attendance> findAllByMemberIdIn(List<Long> memberIds);
 }
