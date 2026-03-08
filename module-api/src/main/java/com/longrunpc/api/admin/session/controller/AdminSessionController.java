@@ -50,13 +50,13 @@ public class AdminSessionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<SessionDetailResponse>> updateSession(@PathVariable Long sessionId, @RequestBody UpdateSessionRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(updateSessionUsecase.execute(request, sessionId)));
+    public ResponseEntity<ApiResponse<SessionDetailResponse>> updateSession(@PathVariable Long id, @RequestBody UpdateSessionRequest request) {
+        return ResponseEntity.ok(ApiResponse.success(updateSessionUsecase.execute(request, id)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<SessionDetailResponse>> cancelSession(@PathVariable Long sessionId) {
-        return ResponseEntity.ok(ApiResponse.success(cancelSessionUsecase.execute(sessionId)));
+    public ResponseEntity<ApiResponse<SessionDetailResponse>> cancelSession(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.success(cancelSessionUsecase.execute(id)));
     }
 
     @PostMapping("/{sessionId}/qrcodes")
