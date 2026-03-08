@@ -2,7 +2,6 @@ package com.longrunpc.api.admin.attendance.usecase;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.longrunpc.api.admin.attendance.dto.response.MemberAttendanceSummaryResponse;
 import com.longrunpc.common.error.CohortErrorCode;
+import com.longrunpc.common.error.SessionErrorCode;
 import com.longrunpc.common.exception.BusinessException;
 import com.longrunpc.domain.attendance.entity.Attendance;
 import com.longrunpc.domain.attendance.entity.AttendanceStatus;
@@ -19,8 +19,9 @@ import com.longrunpc.domain.cohort.entity.Cohort;
 import com.longrunpc.domain.cohort.entity.CohortMember;
 import com.longrunpc.domain.cohort.repository.CohortMemberRepository;
 import com.longrunpc.domain.cohort.repository.CohortRepository;
-import com.longrunpc.domain.cohort.repository.DepositHistoryRepository;
 import com.longrunpc.domain.cohort.vo.Generation;
+import com.longrunpc.domain.session.entity.Session;
+import com.longrunpc.domain.session.repository.SessionRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,9 +30,9 @@ import lombok.RequiredArgsConstructor;
 public class ReadAttendanceSummaryUsecase {
     private final AttendanceRepository attendanceRepository;
     private final CohortMemberRepository cohortMemberRepository;
-    private final DepositHistoryRepository depositHistoryRepository;
     private final CohortRepository cohortRepository;
-
+    private final SessionRepository sessionRepository;
+    
     @Value("${prography.current-cohort.generation}")
     private int currentGeneration;
 
@@ -39,6 +40,9 @@ public class ReadAttendanceSummaryUsecase {
     public List<MemberAttendanceSummaryResponse> execute(Long sessionId) {
         Cohort cohort = cohortRepository.findByGeneration(new Generation(currentGeneration))
             .orElseThrow(() -> new BusinessException(CohortErrorCode.COHORT_NOT_FOUND));
+        
+        sessionRepository.findById(sessionId)
+            .orElseThrow(() -> new BusinessException(SessionErrorCode.SESSION_NOT_FOUND));
 
         List<CohortMember> cohortMembers = cohortMemberRepository.findAllByCohortIdWithMember(cohort.getId());
 
